@@ -55,17 +55,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Model\DefectImageModel.cs" />
+    <Compile Include="Model\DefectInfoModel.cs" />
+    <Compile Include="Model\FileListModel.cs" />
+    <Compile Include="Model\WaferMapModel.cs" />
+    <Compile Include="ViewModel\DefectImageViewModel.cs" />
+    <Compile Include="ViewModel\DefectInfoViewModel.cs" />
+    <Compile Include="ViewModel\FileListViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\WaferMapViewModel.cs" />
+    <Compile Include="View\DefectImageView.xaml.cs">
+      <DependentUpon>DefectImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DefectInfoView.xaml.cs">
+      <DependentUpon>DefectInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FileListView.xaml.cs">
+      <DependentUpon>FileListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferMapView.xaml.cs">
+      <DependentUpon>WaferMapView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -94,5 +110,28 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DefectImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DefectInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FileListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WaferMapView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

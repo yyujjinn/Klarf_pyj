@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Klarf_pyj
+namespace Klarf_pyj.View
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// DefectInfoView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DefectInfoView : Window
     {
-        public MainWindow()
+        public DefectInfoView()
         {
             InitializeComponent();
         }
