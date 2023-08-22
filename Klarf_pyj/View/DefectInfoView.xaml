@@ -5,8 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Klarf_pyj.View"
         mc:Ignorable="d"
-        Title="DefectInfoView" Height="450" Width="800">
+        Title="DefectInfoView" Height="400" Width="400">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
+        <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,158,31" FontSize="10" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="DEFECTID"/>
+                    <GridViewColumn Header="XREL" Width="80"/>
+                    <GridViewColumn Header="YREL" Width="80"/>
+                    <GridViewColumn Header="XINDEX" Width="40"/>
+                    <GridViewColumn Header="YINDEX" Width="40"/>
+                    <GridViewColumn Header="XSIZE" Width="35"/>
+                    <GridViewColumn Header="YSIZE" Width="35"/>
+                    <GridViewColumn Header="DEFECTAREA" Width="40"/>
+                    <GridViewColumn Header="" Width="35"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
