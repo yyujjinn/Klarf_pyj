@@ -23,5 +23,10 @@ namespace Klarf_pyj.View
         {
             InitializeComponent();
         }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
