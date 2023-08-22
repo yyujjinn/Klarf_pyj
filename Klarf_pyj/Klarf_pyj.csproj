@@ -59,13 +59,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DefectImageModel.cs" />
-    <Compile Include="Model\DefectInfoModel.cs" />
-    <Compile Include="Model\FileListModel.cs" />
-    <Compile Include="Model\WaferMapModel.cs" />
+    <Compile Include="Model\DefectModel.cs" />
+    <Compile Include="Model\FileModel.cs" />
     <Compile Include="ViewModel\DefectImageViewModel.cs" />
     <Compile Include="ViewModel\DefectInfoViewModel.cs" />
     <Compile Include="ViewModel\FileListViewModel.cs" />
@@ -79,6 +74,9 @@
     </Compile>
     <Compile Include="View\FileListView.xaml.cs">
       <DependentUpon>FileListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WaferMapView.xaml.cs">
       <DependentUpon>WaferMapView.xaml</DependentUpon>
@@ -111,10 +109,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\DefectImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -127,11 +121,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\WaferMapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

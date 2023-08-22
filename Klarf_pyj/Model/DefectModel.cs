@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Klarf_pyj.Model
 {
-    class FileListModel
+    class DefectModel
     {
     }
 }

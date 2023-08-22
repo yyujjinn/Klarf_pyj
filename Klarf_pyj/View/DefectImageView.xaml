@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Klarf_pyj.View"
         mc:Ignorable="d"
         Title="DefectImageView" Height="450" Width="800">
+
     <Grid>
-        
+
     </Grid>
 </Window>
