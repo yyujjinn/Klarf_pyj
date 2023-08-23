@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:Klarf_pyj.ViewModel"
         mc:Ignorable="d"
         Title="DefectInfoView" Height="400" Width="400">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:DefectInfoViewModel/>
     </Window.DataContext>
     <Grid>
@@ -68,6 +68,6 @@
                     <GridViewColumn Header="IMAGECOUNT" Width="50"/>
                 </GridView>
             </ListView.View>
-        </ListView>
-    </Grid>
+        </ListView>-->
+    <!--</Grid>-->
 </Window>

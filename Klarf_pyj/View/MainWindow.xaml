@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="830" Width="810">
     <Grid>
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
@@ -34,7 +34,7 @@
             />
         <ContentControl Grid.Column="1" Grid.Row="1">
             <local:DefectInfoView/>
-        </ContentControl>
+        </ContentControl>-->
 
     </Grid>
 </Window>

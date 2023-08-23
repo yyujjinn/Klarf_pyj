@@ -30,13 +30,14 @@
                 BorderBrush="WhiteSmoke"
                 Content="Open File"
                 FontSize="10"
+                Command="{Binding OpenFileCommand}"
                 />
 
-        <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,0,8,31">
+        <ListView Name="FileList" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,0,8,31">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="250"/>
-                    <GridViewColumn Header="Date" Width="150"/>
+                    <GridViewColumn Header="Name" Width="250" DisplayMemberBinding="{Binding FileName}"/>
+                    <GridViewColumn Header="Date" Width="150" DisplayMemberBinding="{Binding FileDate}"/>
                 </GridView>
             </ListView.View>
         </ListView>
