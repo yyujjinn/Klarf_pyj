@@ -32,7 +32,9 @@
             Grid.Column="1" 
             Grid.Row="1"
             />
-
+        <ContentControl Grid.Column="1" Grid.Row="1">
+            <local:DefectInfoView/>
+        </ContentControl>
 
     </Grid>
 </Window>

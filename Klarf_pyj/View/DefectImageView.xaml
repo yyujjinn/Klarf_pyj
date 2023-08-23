@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Klarf_pyj.View"
+        xmlns:vm="clr-namespace:Klarf_pyj.ViewModel"
         mc:Ignorable="d"
-        Title="DefectImageView" Height="450" Width="800">
-
+        Title="DefectImageView" Height="400" Width="400">
+    <Window.DataContext>
+        <vm:DefectImageViewModel/>
+    </Window.DataContext>
     <Grid>
 
     </Grid>

@@ -4,9 +4,41 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Klarf_pyj.View"
+        xmlns:vm="clr-namespace:Klarf_pyj.ViewModel"
         mc:Ignorable="d"
         Title="FileListView" Height="400" Width="400">
+    <Window.DataContext>
+        <vm:FileListViewModel/>
+    </Window.DataContext>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="175"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="360"/>
+        </Grid.RowDefinitions>
 
+        <Button x:Name="openFileButton"
+                Grid.Column="0"
+                Grid.Row="0"
+                Margin="5"
+                Background="Gainsboro"
+                BorderBrush="WhiteSmoke"
+                Content="Open File"
+                FontSize="10"
+                />
+
+        <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,0,8,31">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="250"/>
+                    <GridViewColumn Header="Date" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

@@ -4,19 +4,50 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Klarf_pyj.View"
+        xmlns:vm="clr-namespace:Klarf_pyj.ViewModel"
         mc:Ignorable="d"
         Title="DefectInfoView" Height="400" Width="400">
+    <Window.DataContext>
+        <vm:DefectInfoViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="125"/>
+            <ColumnDefinition Width="125"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="130"/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
-        <ListView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,158,31" FontSize="10" >
+        <Label x:Name="fileInfoLabel"
+               Grid.RowSpan="2"
+               Grid.Column="0"
+               Grid.Row="0"
+               HorizontalContentAlignment="Left"
+               VerticalContentAlignment="Top"
+               Content="{Binding FileInfo}"
+               />
+        <Button x:Name="leftButton" Grid.Column="1" Grid.Row="1" Background="White" BorderThickness="0">
+            <ContentControl>
+                <Image Source="C:\Users\yjyu\Downloads\leftarrow.png"
+                       Width="50"
+                       HorizontalAlignment="Left"
+                       />
+            </ContentControl>
+        </Button>
+        <Button x:Name="rightButton" Grid.Column="2" Grid.Row="1" Background="White" BorderThickness="0">
+            <ContentControl>
+                <Image Source="C:\Users\yjyu\Downloads\rightarrow.png"
+                       Width="50"
+                       HorizontalAlignment="Right"
+                       />
+            </ContentControl>
+
+        </Button>
+        <ListView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="10" ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="0,0,8,31" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="DEFECTID"/>
@@ -26,8 +57,15 @@
                     <GridViewColumn Header="YINDEX" Width="40"/>
                     <GridViewColumn Header="XSIZE" Width="35"/>
                     <GridViewColumn Header="YSIZE" Width="35"/>
-                    <GridViewColumn Header="DEFECTAREA" Width="40"/>
-                    <GridViewColumn Header="" Width="35"/>
+                    <GridViewColumn Header="DEFECTAREA" Width="50"/>
+                    <GridViewColumn Header="DSIZE" Width="35"/>
+                    <GridViewColumn Header="CLASSNUMBER" Width="70"/>
+                    <GridViewColumn Header="TEST" Width="35"/>
+                    <GridViewColumn Header="CLUSTERNUMBER" Width="50"/>
+                    <GridViewColumn Header="ROUGHBINNUMBER" Width="60"/>
+                    <GridViewColumn Header="FINEBINNUMBER" Width="60"/>
+                    <GridViewColumn Header="REVIEWSAMPLE" Width="60"/>
+                    <GridViewColumn Header="IMAGECOUNT" Width="50"/>
                 </GridView>
             </ListView.View>
         </ListView>
