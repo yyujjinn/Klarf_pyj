@@ -17,8 +17,9 @@ namespace Klarf_pyj.ViewModel
         #endregion
 
         #region [필드]
-
         ObservableCollection<FileInfo> fileName;
+        ObservableCollection<string> fileDate;
+        ObservableCollection<FileItem> fileList;
         FileModel fileModel;
 
         #endregion
@@ -26,6 +27,16 @@ namespace Klarf_pyj.ViewModel
         #region [속성]
         public ICommand ShowFileListCommand { get; }
         public ICommand OpenFileCommand { get; }
+
+        public ObservableCollection<FileItem> FileList
+        {
+            get { return fileList; }
+            set
+            {
+                fileList = value;
+                OnPropertyChanged("FileList");
+            }
+        }
 
         public ObservableCollection<FileInfo> FileName
         {
@@ -37,12 +48,25 @@ namespace Klarf_pyj.ViewModel
             }
         }
 
+        public ObservableCollection<string> FileDate
+        {
+            get { return fileDate; }
+            set
+            {
+                fileDate = value;
+                OnPropertyChanged("FileDate");
+            }
+        }
+
+
         #endregion
 
         #region [생성자]
         public FileListViewModel()
         {
             fileName = new ObservableCollection<FileInfo>();
+            fileDate = new ObservableCollection<string>();
+            fileList = new ObservableCollection<FileItem>();
             ShowFileListCommand = new RelayCommand<object>(ShowFileList);
             fileModel = new FileModel();
             //OpenFileCommand = new RelayCommand<object>(OpenFile);
@@ -58,14 +82,19 @@ namespace Klarf_pyj.ViewModel
 
         public void ShowFileList(object parameter)
         {
-            FileName.Clear();
-            fileModel.LoadFileList();
+            FileList.Clear();
 
             List<FileInfo> fileNames = fileModel.LoadFileList();
+            List<string> fileDates = fileModel.LoadFileDateList();
 
-            foreach (FileInfo fileName in fileNames)
+
+            for (int i = 0; i < fileNames.Count; i++)
             {
-                FileName.Add(fileName);
+                FileList.Add(new FileItem
+                {
+                    FileName = fileNames[i].Name,
+                    FileDate = fileDates[i]
+                });
             }
         }
 
@@ -75,6 +104,11 @@ namespace Klarf_pyj.ViewModel
         }
 
 
+        public class FileItem
+        {
+            public string FileName { get; set; }
+            public string FileDate { get; set; }
+        }
 
         #endregion
     }
