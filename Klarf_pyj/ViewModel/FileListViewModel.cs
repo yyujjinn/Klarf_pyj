@@ -87,7 +87,6 @@ namespace Klarf_pyj.ViewModel
             List<FileInfo> fileNames = fileModel.LoadFileList();
             List<string> fileDates = fileModel.LoadFileDateList();
 
-
             for (int i = 0; i < fileNames.Count; i++)
             {
                 FileList.Add(new FileItem
@@ -96,6 +95,7 @@ namespace Klarf_pyj.ViewModel
                     FileDate = fileDates[i]
                 });
             }
+
         }
 
         public void OpenFile()
