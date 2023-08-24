@@ -17,15 +17,17 @@ namespace Klarf_pyj.ViewModel
         #endregion
 
         #region [필드]
-        private ObservableCollection<string> fileName = new ObservableCollection<string>();
-        private FileModel fileModel;
+
+        ObservableCollection<FileInfo> fileName;
+        FileModel fileModel;
 
         #endregion
 
         #region [속성]
+        public ICommand ShowFileListCommand { get; }
         public ICommand OpenFileCommand { get; }
 
-        public ObservableCollection<string> FileName
+        public ObservableCollection<FileInfo> FileName
         {
             get { return fileName; }
             set
@@ -40,6 +42,8 @@ namespace Klarf_pyj.ViewModel
         #region [생성자]
         public FileListViewModel()
         {
+            fileName = new ObservableCollection<FileInfo>();
+            ShowFileListCommand = new RelayCommand<object>(ShowFileList);
             fileModel = new FileModel();
             //OpenFileCommand = new RelayCommand<object>(OpenFile);
         }
@@ -52,15 +56,16 @@ namespace Klarf_pyj.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void ShowFileList()
+        public void ShowFileList(object parameter)
         {
-            string folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
+            FileName.Clear();
+            fileModel.LoadFileList();
 
-            string[] fileNames = Directory.GetFiles(folderPath);
-            foreach (var fileName in fileNames)
+            List<FileInfo> fileNames = fileModel.LoadFileList();
+
+            foreach (FileInfo fileName in fileNames)
             {
-                string fileEntry = Path.GetFileName(fileName);
-                FileName.Add(fileEntry);
+                FileName.Add(fileName);
             }
         }
 

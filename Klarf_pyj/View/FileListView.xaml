@@ -22,8 +22,18 @@
             <RowDefinition Height="360"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="openFileButton"
+        <Button x:Name="loadFileButton"
                 Grid.Column="0"
+                Grid.Row="0"
+                Margin="5"
+                Background="Gainsboro"
+                BorderBrush="WhiteSmoke"
+                Content="Load File"
+                FontSize="10"
+                Command="{Binding ShowFileListCommand}"
+                />
+        <Button x:Name="openFileButton"
+                Grid.Column="1"
                 Grid.Row="0"
                 Margin="5"
                 Background="Gainsboro"
@@ -33,11 +43,11 @@
                 Command="{Binding OpenFileCommand}"
                 />
 
-        <ListView Name="FileList" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,0,8,31">
+        <ListView Name="FileList" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Margin="0,0,8,31" ItemsSource="{Binding FileName}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="250" DisplayMemberBinding="{Binding FileName}"/>
-                    <GridViewColumn Header="Date" Width="150" DisplayMemberBinding="{Binding FileDate}"/>
+                    <GridViewColumn Header="Name" Width="250" DisplayMemberBinding="{Binding}"/>
+                    <!--<GridViewColumn Header="Date" Width="150" DisplayMemberBinding="{Binding FileDate}"/>-->
                 </GridView>
             </ListView.View>
         </ListView>
