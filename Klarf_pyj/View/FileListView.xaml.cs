@@ -12,21 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Klarf_pyj.View
+namespace Klarf
 {
     /// <summary>
     /// FileListView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class FileListView : Window
+    public partial class FileListView : UserControl
     {
         public FileListView()
         {
+            //FileListViewModel viewModel = new FileListViewModel();
+            //DataContext = viewModel;
+            
             InitializeComponent();
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
+
     }
 }

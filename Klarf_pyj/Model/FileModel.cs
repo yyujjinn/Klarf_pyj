@@ -1,12 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace Klarf_pyj.Model
+namespace Klarf
 {
     class FileModel
     {
         #region [상수]
-        string folderPath;
+        string folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
 
         #endregion
 
@@ -30,11 +33,9 @@ namespace Klarf_pyj.Model
 
         public List<FileInfo> LoadFileList()
         {
-            folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
-
             DirectoryInfo di = new DirectoryInfo(folderPath);
 
-            string[] extensions = new string[] { "*.001", "*.tif", "*.jpg" };
+            string[] extensions = new string[] { "*.001"};
             foreach (string extension in extensions)
             {
                 FileInfo[] files = di.GetFiles(extension);
@@ -45,10 +46,6 @@ namespace Klarf_pyj.Model
 
         public List<string> LoadFileDateList()
         {
-            folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
-
-
-
             string[] files = Directory.GetFiles(folderPath);
             foreach (var file in files)
             {
@@ -56,6 +53,46 @@ namespace Klarf_pyj.Model
                 fileDates.Add(info.CreationTime.ToString());
             }
             return fileDates;
+        }
+
+        public static string LoadFilePath(string folderPath, string targetExtension)
+        {
+            targetExtension = ".001";
+
+            string[] files = Directory.GetFiles(folderPath);
+            var filteredFiles = files.Where(file => Path.GetExtension(file).Equals(targetExtension, StringComparison.OrdinalIgnoreCase));
+
+            string selectedfile = filteredFiles.First();
+            return selectedfile;
+        }
+
+        public static string LoadFile(string filePath, string targetExtension)
+        {
+            //string selectedFile = LoadFilePath(folderPath, targetExtension);
+            string fileContent = File.ReadAllText(filePath);
+
+            return fileContent;
+        }
+
+        public static List<string> GetFileInfo(string fileContent, string targetExtension)
+        {
+            //string fileContent = LoadFile(folderPath, targetExtension);
+
+            string pattern = @"FileTimestamp (\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}); WaferID """"; LotID ""(.*?)""; DeviceID """"; ";
+            Match match = Regex.Match(fileContent, pattern);
+
+            string fileTimestamp = match.Groups[1].Value;
+            string waferID = match.Groups[2].Value;
+            string lotID = match.Groups[3].Value;
+            string deviceID = match.Groups[3].Value;
+
+            List<string> FileInfo = new List<string>();
+            FileInfo.Add(fileTimestamp);
+            FileInfo.Add(waferID);
+            FileInfo.Add(lotID);
+            FileInfo.Add(deviceID);
+
+            return FileInfo;
         }
     }
 }

@@ -1,17 +1,17 @@
-﻿using Klarf_pyj.Model;
-using Klarf_pyj.ViewModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Klarf_pyj.ViewModel
+namespace Klarf
 {
-    class FileListViewModel : INotifyPropertyChanged
+    public class FileListViewModel : INotifyPropertyChanged
     {
         #region [상수]
+        string folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
+        string targetExtension = ".001";
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
@@ -20,13 +20,15 @@ namespace Klarf_pyj.ViewModel
         ObservableCollection<FileInfo> fileName;
         ObservableCollection<string> fileDate;
         ObservableCollection<FileItem> fileList;
+        private FileItem selectedFile;
+        FileItem fileInfo;
         FileModel fileModel;
 
         #endregion
 
         #region [속성]
         public ICommand ShowFileListCommand { get; }
-        public ICommand OpenFileCommand { get; }
+        public ICommand SelectFileCommand { get; }
 
         public ObservableCollection<FileItem> FileList
         {
@@ -58,18 +60,32 @@ namespace Klarf_pyj.ViewModel
             }
         }
 
+        public FileItem SelectedFile
+        {
+            get { return selectedFile; }
+            set
+            {
+                if (selectedFile != value)
+                {
+                    selectedFile = value;
+                    SelectFile();
+                    OnPropertyChanged("SelectedFile");
+                }
+            }
+        }
 
         #endregion
 
         #region [생성자]
         public FileListViewModel()
         {
+            DefectInfoViewModel defectInfoViewModel = new DefectInfoViewModel();
             fileName = new ObservableCollection<FileInfo>();
             fileDate = new ObservableCollection<string>();
             fileList = new ObservableCollection<FileItem>();
             ShowFileListCommand = new RelayCommand<object>(ShowFileList);
             fileModel = new FileModel();
-            //OpenFileCommand = new RelayCommand<object>(OpenFile);
+            //SelectFileCommand = new RelayCommand<object>(SelectFile);
         }
 
         #endregion
@@ -95,12 +111,17 @@ namespace Klarf_pyj.ViewModel
                     FileDate = fileDates[i]
                 });
             }
-
         }
 
-        public void OpenFile()
+        public void SelectFile()
         {
+            string loadedFile = FileModel.LoadFile(Path.Combine(folderPath, selectedFile.FileName), targetExtension);
 
+            //if (!string.IsNullOrEmpty(loadedFile))
+            //{
+            //    SelectedFile = loadedFile;
+            //}
+            //SelectedFile = FileModel.LoadFile(folderPath, targetExtension);
         }
 
 

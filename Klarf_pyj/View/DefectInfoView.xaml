@@ -1,15 +1,15 @@
-﻿<Window x:Class="Klarf_pyj.View.DefectInfoView"
+﻿<UserControl x:Class="Klarf.DefectInfoView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Klarf_pyj.View"
-        xmlns:vm="clr-namespace:Klarf_pyj.ViewModel"
+        xmlns:local="clr-namespace:Klarf"
+        xmlns:vm="clr-namespace:Klarf"
         mc:Ignorable="d"
-        Title="DefectInfoView" Height="400" Width="400">
-    <!--<Window.DataContext>
+        >
+    <UserControl.DataContext>
         <vm:DefectInfoViewModel/>
-    </Window.DataContext>
+    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -22,13 +22,11 @@
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="fileInfoLabel"
+        <TextBox x:Name="fileInfoLabel"
                Grid.RowSpan="2"
                Grid.Column="0"
                Grid.Row="0"
-               HorizontalContentAlignment="Left"
-               VerticalContentAlignment="Top"
-               Content="{Binding FileInfo}"
+               Text="{Binding DisplayWaferID}"
                />
         <Button x:Name="leftButton" Grid.Column="1" Grid.Row="1" Background="White" BorderThickness="0">
             <ContentControl>
@@ -47,7 +45,7 @@
             </ContentControl>
 
         </Button>
-        <ListView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="10" ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="0,0,8,31" >
+        <ListView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="10" ScrollViewer.HorizontalScrollBarVisibility="Visible"  >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="DEFECTID"/>
@@ -68,6 +66,6 @@
                     <GridViewColumn Header="IMAGECOUNT" Width="50"/>
                 </GridView>
             </ListView.View>
-        </ListView>-->
-    <!--</Grid>-->
-</Window>
+        </ListView>
+    </Grid>
+</UserControl>

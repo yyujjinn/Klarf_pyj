@@ -12,16 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Klarf_pyj.View
+namespace Klarf
 {
     /// <summary>
     /// WaferMapView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class WaferMapView : Window
+    public partial class WaferMapView : UserControl
     {
         public WaferMapView()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

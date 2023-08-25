@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Klarf_pyj.ViewModel
+namespace Klarf
 {
     public class RelayCommand<T> : ICommand
     {

@@ -12,16 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Klarf_pyj.View
+namespace Klarf
 {
     /// <summary>
     /// DefectImageView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class DefectImageView : Window
+    public partial class DefectImageView : UserControl
     {
         public DefectImageView()
         {
-            InitializeComponent();
+            DataContext = new DefectImageViewModel();
+            //InitializeComponent();
         }
     }
 }
