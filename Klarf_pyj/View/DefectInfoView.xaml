@@ -10,6 +10,7 @@
     <UserControl.DataContext>
         <vm:DefectInfoViewModel/>
     </UserControl.DataContext>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>
@@ -22,11 +23,12 @@
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="fileInfoLabel"
+        <Label x:Name="fileInfoLabel"
                Grid.RowSpan="2"
                Grid.Column="0"
                Grid.Row="0"
-               Text="{Binding DisplayWaferID}"
+               HorizontalContentAlignment="Left"
+               Content="{Binding DisplayFileInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                />
         <Button x:Name="leftButton" Grid.Column="1" Grid.Row="1" Background="White" BorderThickness="0">
             <ContentControl>
@@ -45,25 +47,25 @@
             </ContentControl>
 
         </Button>
-        <ListView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="10" ScrollViewer.HorizontalScrollBarVisibility="Visible"  >
+        <ListView Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" FontSize="10" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding DefectList}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="DEFECTID"/>
-                    <GridViewColumn Header="XREL" Width="80"/>
-                    <GridViewColumn Header="YREL" Width="80"/>
-                    <GridViewColumn Header="XINDEX" Width="40"/>
-                    <GridViewColumn Header="YINDEX" Width="40"/>
-                    <GridViewColumn Header="XSIZE" Width="35"/>
-                    <GridViewColumn Header="YSIZE" Width="35"/>
-                    <GridViewColumn Header="DEFECTAREA" Width="50"/>
-                    <GridViewColumn Header="DSIZE" Width="35"/>
-                    <GridViewColumn Header="CLASSNUMBER" Width="70"/>
-                    <GridViewColumn Header="TEST" Width="35"/>
-                    <GridViewColumn Header="CLUSTERNUMBER" Width="50"/>
-                    <GridViewColumn Header="ROUGHBINNUMBER" Width="60"/>
-                    <GridViewColumn Header="FINEBINNUMBER" Width="60"/>
-                    <GridViewColumn Header="REVIEWSAMPLE" Width="60"/>
-                    <GridViewColumn Header="IMAGECOUNT" Width="50"/>
+                    <GridViewColumn Header="DEFECTID" DisplayMemberBinding="{Binding DefectID}"/>
+                    <GridViewColumn Header="XREL" Width="80" DisplayMemberBinding="{Binding XRel}"/>
+                    <GridViewColumn Header="YREL" Width="80" DisplayMemberBinding="{Binding YRel}"/>
+                    <GridViewColumn Header="XINDEX" Width="40" DisplayMemberBinding="{Binding XIndex}"/>
+                    <GridViewColumn Header="YINDEX" Width="40" DisplayMemberBinding="{Binding YIndex}"/>
+                    <GridViewColumn Header="XSIZE" Width="35" DisplayMemberBinding="{Binding XSize}"/>
+                    <GridViewColumn Header="YSIZE" Width="35" DisplayMemberBinding="{Binding YSize}"/>
+                    <GridViewColumn Header="DEFECTAREA" Width="50" DisplayMemberBinding="{Binding DefectArea}"/>
+                    <GridViewColumn Header="DSIZE" Width="35" DisplayMemberBinding="{Binding DSize}"/>
+                    <GridViewColumn Header="CLASSNUMBER" Width="70" DisplayMemberBinding="{Binding ClassNumber}"/>
+                    <GridViewColumn Header="TEST" Width="35" DisplayMemberBinding="{Binding Test}"/>
+                    <GridViewColumn Header="CLUSTERNUMBER" Width="50" DisplayMemberBinding="{Binding ClusterNumber}"/>
+                    <GridViewColumn Header="ROUGHBINNUMBER" Width="60" DisplayMemberBinding="{Binding RoughBinNumber}"/>
+                    <GridViewColumn Header="FINEBINNUMBER" Width="60" DisplayMemberBinding="{Binding FineBinNumber}"/>
+                    <GridViewColumn Header="REVIEWSAMPLE" Width="60" DisplayMemberBinding="{Binding ReviewSample}"/>
+                    <GridViewColumn Header="IMAGECOUNT" Width="50" DisplayMemberBinding="{Binding ImageCount}"/>
                 </GridView>
             </ListView.View>
         </ListView>

@@ -21,9 +21,6 @@ namespace Klarf
     {
         public FileListView()
         {
-            //FileListViewModel viewModel = new FileListViewModel();
-            //DataContext = viewModel;
-            
             InitializeComponent();
         }
 

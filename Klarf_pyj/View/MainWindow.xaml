@@ -32,6 +32,7 @@
         <local:DefectInfoView 
             Grid.Column="1" 
             Grid.Row="1"
+            DataContext="{Binding DefectInfoViewModel}"
             />
         <ContentControl Grid.Column="1" Grid.Row="1">
             <local:DefectInfoView/>

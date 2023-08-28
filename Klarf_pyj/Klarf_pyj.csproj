@@ -64,6 +64,7 @@
     <Compile Include="ViewModel\DefectImageViewModel.cs" />
     <Compile Include="ViewModel\DefectInfoViewModel.cs" />
     <Compile Include="ViewModel\FileListViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\WaferMapViewModel.cs" />
     <Compile Include="View\DefectImageView.xaml.cs">

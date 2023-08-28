@@ -18,59 +18,134 @@ namespace Klarf
         #endregion
 
         #region [필드]
-        FileModel fileModel;
+        private FileModel selectedFile;
+        private DefectModel defectModel;
+        private string displayFileInfo;
+        //private ObservableCollection<DefectItem> defectList;
+        private ObservableCollection<string> defectID;
 
         #endregion
 
         #region [속성]
-        //public string FileInfo
-        //{
-        //    get { return fileInfo; }
-        //    set
-        //    {
-        //        fileInfo = value;
-        //        OnPropertyChanged("FileInfo");
-        //    }
-        //}
-        private string displayWaferID;
-        public string DisplayWaferID
+        public FileModel SelectedFile
         {
-            get { return displayWaferID; }
+            get { return selectedFile; }
             set
             {
-                if (displayWaferID != value)
+                selectedFile = value;
+                //ShowFileInfo();
+                this.OnPropertyChanged("SelectedFile");
+            }
+        }
+
+        public string DisplayFileInfo
+        {
+            get { return displayFileInfo; }
+            set
+            {
+                if (displayFileInfo != value)
                 {
-                    displayWaferID = value;
-                    OnPropertyChanged("DisplayWaferID");
+                    displayFileInfo = value;
+                    OnPropertyChanged("DisplayFileInfo");
                 }
             }
         }
+        //public ObservableCollection<DefectItem> DefectList
+        //{
+        //    get { return defectList; }
+        //    set
+        //    {
+        //        defectList = value;
+        //        OnPropertyChanged("DefectList");
+        //    }
+        //}
+
+        //public ObservableCollection<string> DefectID
+        //{
+        //    get { return defectID; }
+        //    set
+        //    {
+        //        defectID = value;
+        //        OnPropertyChanged("DefectID");
+        //    }
+        //}
+
         #endregion
 
         #region [생성자]
         public DefectInfoViewModel()
         {
-            fileModel = new FileModel();
+            selectedFile = new FileModel();
+            defectModel = new DefectModel();
         }
 
         #endregion
 
         #region [메서드]
-        protected virtual void OnPropertyChanged(string propertyName)
+        /*protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }*/
+        protected void OnPropertyChanged(string name)
+
+        {
+
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+
+            {
+
+                handler(this, new PropertyChangedEventArgs(name));
+
+            }
+
         }
 
         public void ShowFileInfo()
         {
-            List<string> fileInfo = FileModel.GetFileInfo(folderPath,targetExtension);
+            List<string> fileInfo = selectedFile.GetFileInfo(@"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf\Klarf Format.001");
 
-            DisplayWaferID = fileInfo[1];
-            //foreach (string fileItem in fileInfo)
-            //{
-            //    FileInfo += fileItem;
-            //}
+            string combinedInfo = string.Join("\n", fileInfo);
+            DisplayFileInfo = "ac";
         }
+
+        //public void ShowDefectList()
+        //{
+        //    //DefectList.Clear();
+
+        //    List<string> defectID = defectModel.GetDefectID(@"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf\Klarf Format.001");
+
+        //    for (int i = 0; i < defectID.Count; i++)
+        //    {
+        //        DefectList.Add(new DefectItem
+        //        {
+        //            DefectID = defectID[i]
+        //        });
+        //    }
+        //}
+
+        #endregion
+
+        #region [종속 클래스]
+        //public class DefectItem
+        //{
+        //    public string DefectID { get; set; }
+        //    public string XRel { get; set; }
+        //    public string YRel { get; set; }
+        //    public string XIndex { get; set; }
+        //    public string YIndex { get; set; }
+        //    public string XSize { get; set; }
+        //    public string YSize { get; set; }
+        //    public string DefectArea { get; set; }
+        //    public string DSize { get; set; }
+        //    public string ClassNumber { get; set; }
+        //    public string Test { get; set; }
+        //    public string ClusterNumber { get; set; }
+        //    public string RoughBinNumber { get; set; }
+        //    public string FineBinNumber { get; set; }
+        //    public string ImageCount { get; set; }
+        //}
 
         #endregion
     }

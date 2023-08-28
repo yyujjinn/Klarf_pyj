@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System;
 
 namespace Klarf
 {
@@ -21,7 +22,6 @@ namespace Klarf
         ObservableCollection<string> fileDate;
         ObservableCollection<FileItem> fileList;
         private FileItem selectedFile;
-        FileItem fileInfo;
         FileModel fileModel;
 
         #endregion
@@ -85,6 +85,7 @@ namespace Klarf
             fileList = new ObservableCollection<FileItem>();
             ShowFileListCommand = new RelayCommand<object>(ShowFileList);
             fileModel = new FileModel();
+            defectInfoViewModel = new DefectInfoViewModel();
             //SelectFileCommand = new RelayCommand<object>(SelectFile);
         }
 
@@ -115,13 +116,14 @@ namespace Klarf
 
         public void SelectFile()
         {
-            string loadedFile = FileModel.LoadFile(Path.Combine(folderPath, selectedFile.FileName), targetExtension);
+            FileModel fileModel = new FileModel();
+            DefectInfoViewModel defectInfoViewModel = new DefectInfoViewModel();
 
-            //if (!string.IsNullOrEmpty(loadedFile))
-            //{
-            //    SelectedFile = loadedFile;
-            //}
-            //SelectedFile = FileModel.LoadFile(folderPath, targetExtension);
+            string loadedFile = FileModel.LoadFile(Path.Combine(folderPath, selectedFile.FileName), targetExtension);
+            //List<string> loadedFileContent = fileModel.GetFileInfo(Path.Combine(folderPath, selectedFile.FileName));
+
+            defectInfoViewModel.ShowFileInfo();
+            //defectInfoViewModel.ShowDefectList();
         }
 
 

@@ -10,6 +10,7 @@ namespace Klarf
     {
         #region [상수]
         string folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
+        
 
         #endregion
 
@@ -31,6 +32,7 @@ namespace Klarf
         #endregion
 
 
+        #region [메서드]
         public List<FileInfo> LoadFileList()
         {
             DirectoryInfo di = new DirectoryInfo(folderPath);
@@ -74,25 +76,51 @@ namespace Klarf
             return fileContent;
         }
 
-        public static List<string> GetFileInfo(string fileContent, string targetExtension)
+        public List<string> GetFileInfo(string filePath)
         {
-            //string fileContent = LoadFile(folderPath, targetExtension);
+            List<string> lines = new List<string>();
 
-            string pattern = @"FileTimestamp (\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}); WaferID """"; LotID ""(.*?)""; DeviceID """"; ";
-            Match match = Regex.Match(fileContent, pattern);
-
-            string fileTimestamp = match.Groups[1].Value;
-            string waferID = match.Groups[2].Value;
-            string lotID = match.Groups[3].Value;
-            string deviceID = match.Groups[3].Value;
-
-            List<string> FileInfo = new List<string>();
-            FileInfo.Add(fileTimestamp);
-            FileInfo.Add(waferID);
-            FileInfo.Add(lotID);
-            FileInfo.Add(deviceID);
-
-            return FileInfo;
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.StartsWith("FileTimestamp"))
+                    {
+                        line = line.TrimEnd(';');
+                        string[] parts = line.Split(' ');
+                        line = string.Join(" ", parts);
+                        lines.Add(line);
+                    }
+                    else if (line.StartsWith("WaferID"))
+                    {
+                        line = line.TrimEnd(';');
+                        string[] parts = line.Split(' ');
+                        line = string.Join(" ", parts);
+                        lines.Add(line);
+                    }
+                    else if (line.StartsWith("LotID"))
+                    {
+                        line = line.TrimEnd(';');
+                        string[] parts = line.Split(' ');
+                        line = string.Join(" ", parts);
+                        lines.Add(line);
+                    }
+                    else if (line.StartsWith("DeviceID"))
+                    {
+                        string[] parts = line.Split(' ');
+                        line = string.Join(" ", parts);
+                        line = line.TrimEnd(';');
+                        lines.Add(line);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+            return lines;
         }
+        #endregion
     }
 }
