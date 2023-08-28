@@ -22,6 +22,7 @@ namespace Klarf
         ObservableCollection<string> fileDate;
         ObservableCollection<FileItem> fileList;
         private FileItem selectedFile;
+        private DefectInfoViewModel _defectInfoViewModel;
         FileModel fileModel;
 
         #endregion
@@ -77,16 +78,14 @@ namespace Klarf
         #endregion
 
         #region [생성자]
-        public FileListViewModel()
+        public FileListViewModel(DefectInfoViewModel defectInfoViewModel)
         {
-            DefectInfoViewModel defectInfoViewModel = new DefectInfoViewModel();
             fileName = new ObservableCollection<FileInfo>();
             fileDate = new ObservableCollection<string>();
             fileList = new ObservableCollection<FileItem>();
             ShowFileListCommand = new RelayCommand<object>(ShowFileList);
+            _defectInfoViewModel = defectInfoViewModel;
             fileModel = new FileModel();
-            defectInfoViewModel = new DefectInfoViewModel();
-            //SelectFileCommand = new RelayCommand<object>(SelectFile);
         }
 
         #endregion
