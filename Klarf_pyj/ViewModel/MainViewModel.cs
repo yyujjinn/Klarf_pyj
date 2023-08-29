@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace Klarf
 {
-    class MainViewModel
+    public class MainViewModel
     {
-        FileListViewModel fileListViewModel = new FileListViewModel();
-        DefectInfoViewModel defectInfoViewModel = new DefectInfoViewModel();
-        DefectImageViewModel defectImageViewModel = new DefectImageViewModel();
-        WaferMapViewModel waferMapViewModel = new WaferMapViewModel();
+        private IFileModel _fileModel;
+        public  FileListViewModel fileListViewModel { get; set; }
+        public static DefectInfoViewModel defectInfoViewModel;
+        public DefectImageViewModel defectImageViewModel { get; set; }
+        public WaferMapViewModel waferMapViewModel { get; set; }
+
+        public MainViewModel(IFileModel fileModel)
+        {
+            _fileModel = fileModel;
+            fileListViewModel = new FileListViewModel();
+            defectInfoViewModel = new DefectInfoViewModel();
+            defectImageViewModel = new DefectImageViewModel();
+            waferMapViewModel = new WaferMapViewModel();
+        }
+
     }
 }

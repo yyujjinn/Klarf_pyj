@@ -3,14 +3,14 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Klarf
 {
-    class FileModel
+    public class FileModel : IFileModel
     {
         #region [상수]
         string folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
-        
 
         #endregion
 
@@ -57,23 +57,22 @@ namespace Klarf
             return fileDates;
         }
 
-        public static string LoadFilePath(string folderPath, string targetExtension)
+        public string LoadFilePath(string folderPath, string targetExtension)
         {
             targetExtension = ".001";
 
             string[] files = Directory.GetFiles(folderPath);
             var filteredFiles = files.Where(file => Path.GetExtension(file).Equals(targetExtension, StringComparison.OrdinalIgnoreCase));
 
-            string selectedfile = filteredFiles.First();
-            return selectedfile;
+            string filePath = filteredFiles.First();
+            return filePath;
         }
 
-        public static string LoadFile(string filePath, string targetExtension)
+        public string LoadFile(string filePath, string targetExtension)
         {
             //string selectedFile = LoadFilePath(folderPath, targetExtension);
-            string fileContent = File.ReadAllText(filePath);
-
-            return fileContent;
+            string loadedFile = File.ReadAllText(filePath);
+            return loadedFile;
         }
 
         public List<string> GetFileInfo(string filePath)
@@ -121,6 +120,7 @@ namespace Klarf
             }
             return lines;
         }
+
         #endregion
     }
 }

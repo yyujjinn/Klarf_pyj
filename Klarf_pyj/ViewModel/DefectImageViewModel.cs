@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Klarf
 {
-    class DefectImageViewModel
+    public class DefectImageViewModel
     {
     }
 }

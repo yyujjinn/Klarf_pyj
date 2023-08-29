@@ -28,7 +28,7 @@
                Grid.Column="0"
                Grid.Row="0"
                HorizontalContentAlignment="Left"
-               Content="{Binding DisplayFileInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+               Content="{Binding MainViewModel.defectInfoViewModel.DisplayFileInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                />
         <Button x:Name="leftButton" Grid.Column="1" Grid.Row="1" Background="White" BorderThickness="0">
             <ContentControl>

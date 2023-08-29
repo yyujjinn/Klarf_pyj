@@ -7,19 +7,34 @@ using System.Windows.Input;
 
 namespace Klarf
 {
-    class DefectInfoViewModel : INotifyPropertyChanged
+    //public partial class Test : UserControl
+    //{
+    //    DefectInfoViewModel defectInfoViewModel = new DefectInfoViewModel();
+
+    //    public Test()
+    //    {
+    //        InitializeComponent();
+    //        this.DataContext = defectInfoViewModel;
+    //    }
+
+    //    public void ShowFileInfo()
+    //    {
+    //        defectInfoViewModel.ShowFileInfo();
+    //    }
+    //}
+
+    public class DefectInfoViewModel : INotifyPropertyChanged
     {
         #region [상수]
         string fileInfo;
         string folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
         string targetExtension = ".001";
         public event PropertyChangedEventHandler PropertyChanged;
-
         #endregion
 
         #region [필드]
-        private FileModel selectedFile;
-        private DefectModel defectModel;
+        private IFileModel fileModel;
+        //private DefectModel defectModel;
         private string displayFileInfo;
         //private ObservableCollection<DefectItem> defectList;
         private ObservableCollection<string> defectID;
@@ -27,16 +42,16 @@ namespace Klarf
         #endregion
 
         #region [속성]
-        public FileModel SelectedFile
-        {
-            get { return selectedFile; }
-            set
-            {
-                selectedFile = value;
-                //ShowFileInfo();
-                this.OnPropertyChanged("SelectedFile");
-            }
-        }
+        //public FileModel SelectedFile
+        //{
+        //    get { return selectedFile; }
+        //    set
+        //    {
+        //        selectedFile = value;
+        //        //ShowFileInfo();
+        //        this.OnPropertyChanged("SelectedFile");
+        //    }
+        //}
 
         public string DisplayFileInfo
         {
@@ -46,7 +61,7 @@ namespace Klarf
                 if (displayFileInfo != value)
                 {
                     displayFileInfo = value;
-                    OnPropertyChanged("DisplayFileInfo");
+                    OnPropertyChanged(nameof(DisplayFileInfo));
                 }
             }
         }
@@ -75,33 +90,33 @@ namespace Klarf
         #region [생성자]
         public DefectInfoViewModel()
         {
-            selectedFile = new FileModel();
-            defectModel = new DefectModel();
+            fileModel = new FileModel();
+            //defectModel = new DefectModel();
         }
 
         #endregion
 
         #region [메서드]
-        /*protected virtual void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }*/
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
         }
+        //protected virtual void OnPropertyChanged(string propertyName)
+        //{
+        //    var handler = PropertyChanged;
+
+        //    if (handler != null)
+        //    {
+        //        handler(this, new PropertyChangedEventArgs(propertyName));
+        //    }
+        //}
 
         public void ShowFileInfo()
         {
-            List<string> fileInfo = selectedFile.GetFileInfo(@"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf\Klarf Format.001");
+            List<string> fileInfo = fileModel.GetFileInfo(@"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf\Klarf Format.001");
 
             string combinedInfo = string.Join("\n", fileInfo);
-            DisplayFileInfo = "ac";
+            DisplayFileInfo = combinedInfo;
         }
 
         //public void ShowDefectList()

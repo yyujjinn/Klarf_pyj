@@ -61,6 +61,8 @@
     </Compile>
     <Compile Include="Model\DefectModel.cs" />
     <Compile Include="Model\FileModel.cs" />
+    <Compile Include="Model\IFileModel.cs" />
+    <Compile Include="Model\WaferModel.cs" />
     <Compile Include="ViewModel\DefectImageViewModel.cs" />
     <Compile Include="ViewModel\DefectInfoViewModel.cs" />
     <Compile Include="ViewModel\FileListViewModel.cs" />

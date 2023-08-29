@@ -22,8 +22,9 @@ namespace Klarf
         ObservableCollection<string> fileDate;
         ObservableCollection<FileItem> fileList;
         private FileItem selectedFile;
-        private DefectInfoViewModel _defectInfoViewModel;
-        FileModel fileModel;
+        private IFileModel fileModel;
+        private IFileModel _fileModel;
+        DefectInfoViewModel defectInfoViewModel;
 
         #endregion
 
@@ -69,8 +70,10 @@ namespace Klarf
                 if (selectedFile != value)
                 {
                     selectedFile = value;
-                    SelectFile();
                     OnPropertyChanged("SelectedFile");
+                    //FileModel.LoadFile(Path.Combine(folderPath, selectedFile.FileName), targetExtension);
+                    //SelectFile();
+                    defectInfoViewModel.ShowFileInfo();
                 }
             }
         }
@@ -78,14 +81,24 @@ namespace Klarf
         #endregion
 
         #region [생성자]
-        public FileListViewModel(DefectInfoViewModel defectInfoViewModel)
+        public FileListViewModel()
         {
+            fileModel = new FileModel();
             fileName = new ObservableCollection<FileInfo>();
             fileDate = new ObservableCollection<string>();
             fileList = new ObservableCollection<FileItem>();
             ShowFileListCommand = new RelayCommand<object>(ShowFileList);
-            _defectInfoViewModel = defectInfoViewModel;
-            fileModel = new FileModel();
+            defectInfoViewModel = MainViewModel.defectInfoViewModel; //new DefectInfoViewModel();
+        }
+
+        public FileListViewModel(IFileModel fileModel)
+        {
+            _fileModel = fileModel;
+            fileName = new ObservableCollection<FileInfo>();
+            fileDate = new ObservableCollection<string>();
+            fileList = new ObservableCollection<FileItem>();
+            ShowFileListCommand = new RelayCommand<object>(ShowFileList);
+            defectInfoViewModel = MainViewModel.defectInfoViewModel; //new DefectInfoViewModel();
         }
 
         #endregion
@@ -115,14 +128,14 @@ namespace Klarf
 
         public void SelectFile()
         {
-            FileModel fileModel = new FileModel();
-            DefectInfoViewModel defectInfoViewModel = new DefectInfoViewModel();
+            //FileModel fileModel = new FileModel();
+            //DefectInfoViewModel defectInfoViewModel = new DefectInfoViewModel();
 
-            string loadedFile = FileModel.LoadFile(Path.Combine(folderPath, selectedFile.FileName), targetExtension);
+            //string loadedFile = _fileModel.LoadFile(Path.Combine(folderPath, selectedFile.FileName), targetExtension);
             //List<string> loadedFileContent = fileModel.GetFileInfo(Path.Combine(folderPath, selectedFile.FileName));
 
-            defectInfoViewModel.ShowFileInfo();
-            //defectInfoViewModel.ShowDefectList();
+            //defectInfoViewModel.ShowFileInfo();
+            ////defectInfoViewModel.ShowDefectList();
         }
 
 
