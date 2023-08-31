@@ -280,14 +280,10 @@ namespace Klarf
         #region [메서드]
         private void MainModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Wafer")
-            {
-                ShowFileInfo();
-            }
-
-            else if (e.PropertyName == "Defect")
+            if (e.PropertyName == "Defect")
             {
                 ShowDefecList();
+                ShowFileInfo();
             }
         }
 
@@ -300,10 +296,10 @@ namespace Klarf
         {
             StringBuilder fileInfo = new StringBuilder();
 
-            fileInfo.AppendLine("\n" + mainModel.Wafer.fileTimestamp + "\n");
-            fileInfo.AppendLine(mainModel.Wafer.waferID + "\n");
-            fileInfo.AppendLine(mainModel.Wafer.lotID + "\n");
-            fileInfo.AppendLine(mainModel.Wafer.deviceID);
+            fileInfo.AppendLine("\n" + mainModel.Defect.fileTimestamp + "\n");
+            fileInfo.AppendLine(mainModel.Defect.waferID + "\n");
+            fileInfo.AppendLine(mainModel.Defect.lotID + "\n");
+            fileInfo.AppendLine(mainModel.Defect.deviceID);
             //string combinedInfo = string.Join("\n", mainModel.Wafer);
             DisplayFileInfo = fileInfo.ToString();
         }

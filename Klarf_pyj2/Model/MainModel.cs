@@ -6,14 +6,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Klarf
 {
     public class MainModel
     {
         #region [필드]
-        private WaferModel waferModel;
-        private DefectModel defectModel;
+        private WaferModel saveWafer;
+        private DefectModel saveDefect;
         private FileModel fileModel;
         private static MainModel instance = null;
 
@@ -37,24 +38,24 @@ namespace Klarf
 
         public WaferModel Wafer
         {
-            get { return waferModel; }
+            get { return saveWafer; }
             set
             {
-                if (waferModel != value)
+                if (saveWafer != value)
                 {
-                    waferModel = value;
+                    saveWafer = value;
                     OnPropertyChanged("Wafer");
                 }
             }
         }
         public DefectModel Defect
         {
-            get { return defectModel; }
+            get { return saveDefect; }
             set
             {
-                if (defectModel != value)
+                if (saveDefect != value)
                 {
-                    defectModel = value;
+                    saveDefect = value;
                     OnPropertyChanged("Defect");
                 }
             }
@@ -79,10 +80,11 @@ namespace Klarf
         #region [생성자]
         public MainModel()
         {
-            
+
             this.fileModel = new FileModel();
-            Wafer = new WaferModel();
-            Defect = new DefectModel();
+            saveDefect = new DefectModel();
+            saveWafer = new WaferModel();
+            //xIndices = new List<int>();
         }
 
         #endregion
@@ -111,12 +113,16 @@ namespace Klarf
             return (fileName, fileDate);
         }
 
-        public void GetPartsWaferIndex(string filePath, int partIndex)
+        public List<string> GetPartsDieIndex(int partIndex)
         {
-            List<string> partsWaferIndex = new List<string>();
+            string filePath = FileData.filePath;
+            LoadFile(filePath);
+            string fileContent = FileData.fileData;
+
+            List<string> partsDieIndex = new List<string>();
             bool startReading = false;
 
-            using (StreamReader reader = new StreamReader(filePath))
+            using (StringReader reader = new StringReader(fileContent))
             {
                 string line;
 
@@ -134,27 +140,117 @@ namespace Klarf
                         {
                             break;
                         }
+                        line = line.TrimEnd(';');
                         string[] parts = line.Split(' ');
-                        partsWaferIndex.Add(parts[partIndex]);
+                        partsDieIndex.Add(parts[partIndex]);
                     }
                 }
             }
+            return partsDieIndex;
         }
-        //public void GiveFilePath()
-        //{
-        //    string filePath = FileData.filePath;
 
-        //    for (int i = 0; i < 2; i++)
-        //    {
-        //        GetPartsWaferIndex(filePath, i);
-        //    }
+        public void GiveDieIndex ()
+        {
 
-        //    for (int i = 0; i < 2; i++)
-        //    {
-        //        GetPartsDefectList(filePath, i);
-        //    }
+            saveWafer.xIndex = GetPartsDieIndex(0);
+            saveWafer.yIndex = GetPartsDieIndex(1);
 
-        //}
+            saveWafer.xIndices = new List<int>();
+            saveWafer.yIndices = new List<int>();
+
+            foreach (string xIndexString in saveWafer.xIndex)
+            {
+                if (int.TryParse(xIndexString, out int xIndex))
+                {
+
+                    saveWafer.xIndices.Add(xIndex);
+                }
+            }
+
+            foreach (string yIndexString in saveWafer.yIndex)
+            {
+                if (int.TryParse(yIndexString, out int yIndex))
+                {
+                    saveWafer.yIndices.Add(yIndex);
+                }
+            }
+
+            //int xMin = saveValue.xIndices.Min();
+            //int xMax = saveValue.xIndices.Max();
+            //int yMax = saveValue.yIndices.Max();
+
+            //saveValue.dieIndex = new List<Point>();
+
+            //for (int i = 0; i < saveValue.xIndex.Count; i++)
+            //{
+            //    if (i < saveValue.xIndices.Count && i < saveValue.yIndices.Count) // 범위 확인
+            //    {
+            //        int x = saveValue.xIndices[i] - xMin;
+            //        int y = Math.Abs(saveValue.yIndices[i] - yMax);
+
+            //        saveValue.dieIndex.Add(new Point(x, y));
+            //    }
+            //}
+
+            //int[] xCounts = new int[50];
+            //int[] yCounts = new int[50];
+
+            //foreach (int yIndex in saveValue.yIndices)
+            //{
+            //    if (yIndex >= 0 && yIndex < 50)
+            //    {
+            //        xCounts[yIndex]++;
+            //    }
+            //}
+
+            //foreach (int xIndex in saveValue.xIndices)
+            //{
+            //    if (xIndex >= 0 && xIndex < 50)
+            //    {
+            //        yCounts[xIndex]++;
+            //    }
+            //}
+
+            //int xCount = xCounts.Max();
+            //int yCount = yCounts.Max();
+
+            //saveValue.width = 400 / xCount;
+            //saveValue.height = 400 / yCount;
+
+            Instance.Wafer = saveWafer;
+        }
+
+        public void GiveDieSize()
+        {
+            //WaferModel saveValue = new WaferModel();
+
+            //int[] xCounts = new int[50];
+            //int[] yCounts = new int[50];
+
+            //foreach (int yIndex in saveValue.yIndices)
+            //{
+            //    if (yIndex >= 0 && yIndex < 50)
+            //    {
+            //        xCounts[yIndex]++;
+            //    }
+            //}
+
+            //foreach (int xIndex in saveValue.xIndices)
+            //{
+            //    if (xIndex >= 0 && xIndex < 50)
+            //    {
+            //        yCounts[xIndex]++;
+            //    }
+            //}
+
+            //int xCount = xCounts.Max();
+            //int yCount = yCounts.Max();
+
+            //saveValue.width = 400 / xCount;
+            //saveValue.height = 400 / yCount;
+
+            //Instance.Wafer = saveValue;
+        }
 
         public (string, DateTime) GiveFileList()
         {
@@ -179,7 +275,6 @@ namespace Klarf
             {
                 string line;
 
-                WaferModel saveValue = new WaferModel();
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (line.StartsWith("FileTimestamp"))
@@ -187,35 +282,36 @@ namespace Klarf
                         line = line.TrimEnd(';');
                         string[] parts = line.Split(' ');
                         line = string.Join(" ", parts);
-                        saveValue.fileTimestamp = line;
+                        saveDefect.fileTimestamp = line;
                     }
                     else if (line.StartsWith("WaferID"))
                     {
                         line = line.TrimEnd(';');
                         string[] parts = line.Split(' ');
                         line = string.Join(" ", parts);
-                        saveValue.waferID = line;
+                        saveDefect.waferID = line;
                     }
                     else if (line.StartsWith("LotID"))
                     {
                         line = line.TrimEnd(';');
                         string[] parts = line.Split(' ');
                         line = string.Join(" ", parts);
-                        saveValue.lotID = line;
+                        saveDefect.lotID = line;
                     }
                     else if (line.StartsWith("DeviceID"))
                     {
                         string[] parts = line.Split(' ');
                         line = string.Join(" ", parts);
                         line = line.TrimEnd(';');
-                        saveValue.deviceID = line;
+                        saveDefect.deviceID = line;
                     }
                     else
                     {
                         continue;
                     }
                 }
-                Instance.Wafer = saveValue;
+                GiveDieIndex();
+                Instance.Defect = saveDefect;
             }
         }
 
@@ -253,6 +349,7 @@ namespace Klarf
 
                         if (lineCounter % 2 == 1)
                         {
+                            line = line.TrimEnd(';');
                             string[] parts = line.Split(' ');
                             partsDefectList.Add(parts[partIndex]);
                         }
@@ -264,26 +361,24 @@ namespace Klarf
 
         public void GiveDefectList()
         {
-            DefectModel saveValue = new DefectModel();
+            saveDefect.defectID = GetPartsDefectList(0);
+            saveDefect.xRel = GetPartsDefectList(1);
+            saveDefect.yRel = GetPartsDefectList(2);
+            saveDefect.xIndex = GetPartsDefectList(3);
+            saveDefect.yIndex = GetPartsDefectList(4);
+            saveDefect.xSize = GetPartsDefectList(5);
+            saveDefect.ySize = GetPartsDefectList(6);
+            saveDefect.defectArea = GetPartsDefectList(7);
+            saveDefect.dSize = GetPartsDefectList(8);
+            saveDefect.classNumber = GetPartsDefectList(9);
+            saveDefect.test = GetPartsDefectList(10);
+            saveDefect.clusterNumber = GetPartsDefectList(11);
+            saveDefect.roughBinNumber = GetPartsDefectList(12);
+            saveDefect.fineBinNumber = GetPartsDefectList(13);
+            saveDefect.reviewSample = GetPartsDefectList(14);
+            saveDefect.imageCount = GetPartsDefectList(15);
 
-            saveValue.defectID = GetPartsDefectList(0);
-            saveValue.xRel = GetPartsDefectList(1);
-            saveValue.yRel = GetPartsDefectList(2);
-            saveValue.xIndex = GetPartsDefectList(3);
-            saveValue.yIndex = GetPartsDefectList(4);
-            saveValue.xSize = GetPartsDefectList(5);
-            saveValue.ySize = GetPartsDefectList(6);
-            saveValue.defectArea = GetPartsDefectList(7);
-            saveValue.dSize = GetPartsDefectList(8);
-            saveValue.classNumber = GetPartsDefectList(9);
-            saveValue.test = GetPartsDefectList(10);
-            saveValue.clusterNumber = GetPartsDefectList(11);
-            saveValue.roughBinNumber = GetPartsDefectList(12);
-            saveValue.fineBinNumber = GetPartsDefectList(13);
-            saveValue.reviewSample = GetPartsDefectList(14);
-            saveValue.imageCount = GetPartsDefectList(15);
-
-            Instance.Defect = saveValue;
+            Instance.Defect = saveDefect;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

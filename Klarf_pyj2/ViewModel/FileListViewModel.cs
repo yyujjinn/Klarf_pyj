@@ -64,9 +64,10 @@ namespace Klarf
         public FileListViewModel()
         {
             fileList = new ObservableCollection<FileItem>();
+            mainModel = MainModel.Instance;
             OpenFileCommand = new RelayCommand<object>(OpenFile);
             ShowFileListCommand = new RelayCommand<object>(ShowFileList);
-            mainModel = new MainModel();
+
         }
 
         #endregion

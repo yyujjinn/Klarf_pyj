@@ -10,8 +10,9 @@ namespace Klarf
 {
     public class WaferModel
     {
-        public string waferID, lotID, fileTimestamp, deviceID;
-        public List<Point> sampleTestPlan;
+        public double width, height;
+        public List<string> xIndex, yIndex;
+        public List<int> xIndices, yIndices;
 
         //public void GetPartsWaferIndex(string filePath, int partIndex)
         //{
