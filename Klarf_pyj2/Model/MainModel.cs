@@ -30,8 +30,6 @@ namespace Klarf
                     instance = new MainModel();
                 }
 
-
-
                 return instance;
             }
         }
@@ -82,8 +80,8 @@ namespace Klarf
         {
 
             this.fileModel = new FileModel();
-            saveDefect = new DefectModel();
-            saveWafer = new WaferModel();
+            Defect = new DefectModel();
+            Wafer = new WaferModel();
             //xIndices = new List<int>();
         }
 
@@ -151,27 +149,28 @@ namespace Klarf
 
         public void GiveDieIndex ()
         {
+            WaferModel newWafer = new WaferModel();
 
-            saveWafer.xIndex = GetPartsDieIndex(0);
-            saveWafer.yIndex = GetPartsDieIndex(1);
+            newWafer.xIndex = GetPartsDieIndex(0);
+            newWafer.yIndex = GetPartsDieIndex(1);
 
-            saveWafer.xIndices = new List<int>();
-            saveWafer.yIndices = new List<int>();
+            newWafer.xIndices = new List<int>();
+            newWafer.yIndices = new List<int>();
 
-            foreach (string xIndexString in saveWafer.xIndex)
+            foreach (string xIndexString in newWafer.xIndex)
             {
                 if (int.TryParse(xIndexString, out int xIndex))
                 {
 
-                    saveWafer.xIndices.Add(xIndex);
+                    newWafer.xIndices.Add(xIndex);
                 }
             }
 
-            foreach (string yIndexString in saveWafer.yIndex)
+            foreach (string yIndexString in newWafer.yIndex)
             {
                 if (int.TryParse(yIndexString, out int yIndex))
                 {
-                    saveWafer.yIndices.Add(yIndex);
+                    newWafer.yIndices.Add(yIndex);
                 }
             }
 
@@ -217,7 +216,7 @@ namespace Klarf
             //saveValue.width = 400 / xCount;
             //saveValue.height = 400 / yCount;
 
-            Instance.Wafer = saveWafer;
+            Instance.Wafer = newWafer;
         }
 
         public void GiveDieSize()
@@ -263,6 +262,8 @@ namespace Klarf
 
         public void GiveFileInfo()
         {
+            DefectModel newDefect = new DefectModel();
+
             StringBuilder combineInfo = new StringBuilder();
 
             string filePath = FileData.filePath;
@@ -282,36 +283,55 @@ namespace Klarf
                         line = line.TrimEnd(';');
                         string[] parts = line.Split(' ');
                         line = string.Join(" ", parts);
-                        saveDefect.fileTimestamp = line;
+                        newDefect.fileTimestamp = line;
                     }
                     else if (line.StartsWith("WaferID"))
                     {
                         line = line.TrimEnd(';');
                         string[] parts = line.Split(' ');
                         line = string.Join(" ", parts);
-                        saveDefect.waferID = line;
+                        newDefect.waferID = line;
                     }
                     else if (line.StartsWith("LotID"))
                     {
                         line = line.TrimEnd(';');
                         string[] parts = line.Split(' ');
                         line = string.Join(" ", parts);
-                        saveDefect.lotID = line;
+                        newDefect.lotID = line;
                     }
                     else if (line.StartsWith("DeviceID"))
                     {
                         string[] parts = line.Split(' ');
                         line = string.Join(" ", parts);
                         line = line.TrimEnd(';');
-                        saveDefect.deviceID = line;
+                        newDefect.deviceID = line;
                     }
                     else
                     {
                         continue;
                     }
                 }
-                GiveDieIndex();
-                Instance.Defect = saveDefect;
+                //GiveDieIndex();
+                //GiveDefectList();
+
+                newDefect.defectID = GetPartsDefectList(0);
+                newDefect.xRel = GetPartsDefectList(1);
+                newDefect.yRel = GetPartsDefectList(2);
+                newDefect.xIndex = GetPartsDefectList(3);
+                newDefect.yIndex = GetPartsDefectList(4);
+                newDefect.xSize = GetPartsDefectList(5);
+                newDefect.ySize = GetPartsDefectList(6);
+                newDefect.defectArea = GetPartsDefectList(7);
+                newDefect.dSize = GetPartsDefectList(8);
+                newDefect.classNumber = GetPartsDefectList(9);
+                newDefect.test = GetPartsDefectList(10);
+                newDefect.clusterNumber = GetPartsDefectList(11);
+                newDefect.roughBinNumber = GetPartsDefectList(12);
+                newDefect.fineBinNumber = GetPartsDefectList(13);
+                newDefect.reviewSample = GetPartsDefectList(14);
+                newDefect.imageCount = GetPartsDefectList(15);
+
+                Instance.Defect = newDefect;
             }
         }
 
@@ -359,27 +379,29 @@ namespace Klarf
             return partsDefectList;
         }
 
-        public void GiveDefectList()
-        {
-            saveDefect.defectID = GetPartsDefectList(0);
-            saveDefect.xRel = GetPartsDefectList(1);
-            saveDefect.yRel = GetPartsDefectList(2);
-            saveDefect.xIndex = GetPartsDefectList(3);
-            saveDefect.yIndex = GetPartsDefectList(4);
-            saveDefect.xSize = GetPartsDefectList(5);
-            saveDefect.ySize = GetPartsDefectList(6);
-            saveDefect.defectArea = GetPartsDefectList(7);
-            saveDefect.dSize = GetPartsDefectList(8);
-            saveDefect.classNumber = GetPartsDefectList(9);
-            saveDefect.test = GetPartsDefectList(10);
-            saveDefect.clusterNumber = GetPartsDefectList(11);
-            saveDefect.roughBinNumber = GetPartsDefectList(12);
-            saveDefect.fineBinNumber = GetPartsDefectList(13);
-            saveDefect.reviewSample = GetPartsDefectList(14);
-            saveDefect.imageCount = GetPartsDefectList(15);
+        //public void GiveDefectList()
+        //{
+        //    DefectModel newDefect1 = new DefectModel();
 
-            Instance.Defect = saveDefect;
-        }
+        //    newDefect1.defectID = GetPartsDefectList(0);
+        //    newDefect1.xRel = GetPartsDefectList(1);
+        //    newDefect1.yRel = GetPartsDefectList(2);
+        //    newDefect1.xIndex = GetPartsDefectList(3);
+        //    newDefect1.yIndex = GetPartsDefectList(4);
+        //    newDefect1.xSize = GetPartsDefectList(5);
+        //    newDefect1.ySize = GetPartsDefectList(6);
+        //    newDefect1.defectArea = GetPartsDefectList(7);
+        //    newDefect1.dSize = GetPartsDefectList(8);
+        //    newDefect1.classNumber = GetPartsDefectList(9);
+        //    newDefect1.test = GetPartsDefectList(10);
+        //    newDefect1.clusterNumber = GetPartsDefectList(11);
+        //    newDefect1.roughBinNumber = GetPartsDefectList(12);
+        //    newDefect1.fineBinNumber = GetPartsDefectList(13);
+        //    newDefect1.reviewSample = GetPartsDefectList(14);
+        //    newDefect1.imageCount = GetPartsDefectList(15);
+
+        //    Instance.Defect = newDefect1;
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

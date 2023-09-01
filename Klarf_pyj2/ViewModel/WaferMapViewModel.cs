@@ -136,12 +136,18 @@ namespace Klarf
             int xMin = mainModel.Wafer.xIndices.Min();
             int yMax = mainModel.Wafer.yIndices.Max();
 
+            //List<int> xList = new List<int>();
+            //List<int> yList = new List<int>();
+
             for (int i = 0; i < mainModel.Wafer.xIndex.Count; i++)
             {
                 if (i < mainModel.Wafer.xIndices.Count && i < mainModel.Wafer.yIndices.Count) // 범위 확인
                 {
                     x = mainModel.Wafer.xIndices[i] - xMin;
                     y = Math.Abs(mainModel.Wafer.yIndices[i] - yMax);
+
+                    //xList[i] = x;
+                    //yList[i] = y;
 
                     int[] xCounts = new int[50];
                     int[] yCounts = new int[50];
@@ -173,6 +179,7 @@ namespace Klarf
 
                 }
             }
+
             DieIndex.Add(new DieIndexItem
             {
                 DiePoint = new List<Point> { new Point { X = x, Y = y } },

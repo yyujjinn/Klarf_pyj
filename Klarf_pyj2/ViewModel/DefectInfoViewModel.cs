@@ -282,8 +282,8 @@ namespace Klarf
         {
             if (e.PropertyName == "Defect")
             {
-                ShowDefecList();
                 ShowFileInfo();
+                ShowDefecList();
             }
         }
 

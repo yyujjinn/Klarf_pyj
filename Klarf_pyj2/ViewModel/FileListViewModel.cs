@@ -91,7 +91,8 @@ namespace Klarf
         private void OpenFile(object parameter)
         {
             mainModel.GiveFileInfo();
-            mainModel.GiveDefectList();
+            //mainModel.GiveDefectList();
+            mainModel.GiveDieIndex();
         }
 
         #endregion
