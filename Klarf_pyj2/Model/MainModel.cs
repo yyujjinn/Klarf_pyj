@@ -174,81 +174,32 @@ namespace Klarf
                 }
             }
 
-            //int xMin = saveValue.xIndices.Min();
-            //int xMax = saveValue.xIndices.Max();
-            //int yMax = saveValue.yIndices.Max();
+            int[] xCounts = new int[50];
+            int[] yCounts = new int[50];
 
-            //saveValue.dieIndex = new List<Point>();
+            foreach (int yIndex in newWafer.yIndices)
+            {
+                if (yIndex >= 0 && yIndex < 50)
+                {
+                    xCounts[yIndex]++;
+                }
+            }
 
-            //for (int i = 0; i < saveValue.xIndex.Count; i++)
-            //{
-            //    if (i < saveValue.xIndices.Count && i < saveValue.yIndices.Count) // 범위 확인
-            //    {
-            //        int x = saveValue.xIndices[i] - xMin;
-            //        int y = Math.Abs(saveValue.yIndices[i] - yMax);
+            foreach (int xIndex in newWafer.xIndices)
+            {
+                if (xIndex >= 0 && xIndex < 50)
+                {
+                    yCounts[xIndex]++;
+                }
+            }
 
-            //        saveValue.dieIndex.Add(new Point(x, y));
-            //    }
-            //}
+            int xCount = xCounts.Max();
+            int yCount = yCounts.Max();
 
-            //int[] xCounts = new int[50];
-            //int[] yCounts = new int[50];
-
-            //foreach (int yIndex in saveValue.yIndices)
-            //{
-            //    if (yIndex >= 0 && yIndex < 50)
-            //    {
-            //        xCounts[yIndex]++;
-            //    }
-            //}
-
-            //foreach (int xIndex in saveValue.xIndices)
-            //{
-            //    if (xIndex >= 0 && xIndex < 50)
-            //    {
-            //        yCounts[xIndex]++;
-            //    }
-            //}
-
-            //int xCount = xCounts.Max();
-            //int yCount = yCounts.Max();
-
-            //saveValue.width = 400 / xCount;
-            //saveValue.height = 400 / yCount;
+            newWafer.width = 400 / xCount;
+            newWafer.height = 400 / yCount;
 
             Instance.Wafer = newWafer;
-        }
-
-        public void GiveDieSize()
-        {
-            //WaferModel saveValue = new WaferModel();
-
-            //int[] xCounts = new int[50];
-            //int[] yCounts = new int[50];
-
-            //foreach (int yIndex in saveValue.yIndices)
-            //{
-            //    if (yIndex >= 0 && yIndex < 50)
-            //    {
-            //        xCounts[yIndex]++;
-            //    }
-            //}
-
-            //foreach (int xIndex in saveValue.xIndices)
-            //{
-            //    if (xIndex >= 0 && xIndex < 50)
-            //    {
-            //        yCounts[xIndex]++;
-            //    }
-            //}
-
-            //int xCount = xCounts.Max();
-            //int yCount = yCounts.Max();
-
-            //saveValue.width = 400 / xCount;
-            //saveValue.height = 400 / yCount;
-
-            //Instance.Wafer = saveValue;
         }
 
         public (string, DateTime) GiveFileList()
@@ -311,8 +262,6 @@ namespace Klarf
                         continue;
                     }
                 }
-                //GiveDieIndex();
-                //GiveDefectList();
 
                 newDefect.defectID = GetPartsDefectList(0);
                 newDefect.xRel = GetPartsDefectList(1);
@@ -378,30 +327,6 @@ namespace Klarf
             }
             return partsDefectList;
         }
-
-        //public void GiveDefectList()
-        //{
-        //    DefectModel newDefect1 = new DefectModel();
-
-        //    newDefect1.defectID = GetPartsDefectList(0);
-        //    newDefect1.xRel = GetPartsDefectList(1);
-        //    newDefect1.yRel = GetPartsDefectList(2);
-        //    newDefect1.xIndex = GetPartsDefectList(3);
-        //    newDefect1.yIndex = GetPartsDefectList(4);
-        //    newDefect1.xSize = GetPartsDefectList(5);
-        //    newDefect1.ySize = GetPartsDefectList(6);
-        //    newDefect1.defectArea = GetPartsDefectList(7);
-        //    newDefect1.dSize = GetPartsDefectList(8);
-        //    newDefect1.classNumber = GetPartsDefectList(9);
-        //    newDefect1.test = GetPartsDefectList(10);
-        //    newDefect1.clusterNumber = GetPartsDefectList(11);
-        //    newDefect1.roughBinNumber = GetPartsDefectList(12);
-        //    newDefect1.fineBinNumber = GetPartsDefectList(13);
-        //    newDefect1.reviewSample = GetPartsDefectList(14);
-        //    newDefect1.imageCount = GetPartsDefectList(15);
-
-        //    Instance.Defect = newDefect1;
-        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

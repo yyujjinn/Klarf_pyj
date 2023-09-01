@@ -11,7 +11,7 @@
         <vm:WaferMapViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <ItemsControl ItemsSource="{Binding DiePoint}">
+        <ItemsControl ItemsSource="{Binding DieIndex}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -19,7 +19,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Rectangle Width="{Binding Width}" Height="{Binding Height}" Fill="LightGray"/>
+                    <Rectangle Width="{Binding Width}" Height="{Binding Height}" 
+                               Margin="{Binding Margin}" Fill="LightGray"
+                               StrokeThickness="1" Stroke="White"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>

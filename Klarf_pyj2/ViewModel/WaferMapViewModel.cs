@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace Klarf
 {
@@ -13,17 +14,16 @@ namespace Klarf
     {
         #region [상수]
         public event PropertyChangedEventHandler PropertyChanged;
-        int x;
-        int y;
 
         #endregion
 
         #region [필드]
         MainModel mainModel;
         private ObservableCollection<DieIndexItem> dieIndex;
-        private ObservableCollection<Point> diePoint;
-        private double width;
-        private double height;
+        private List<Point> diePoint;
+        private int width;
+        private int height;
+        private Thickness margin;
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace Klarf
             }
         }
 
-        public ObservableCollection<Point> DiePoint
+        public List<Point> DiePoint
         {
             get { return diePoint; }
             set
@@ -78,7 +78,7 @@ namespace Klarf
             }
         }
 
-        public double Width
+        public int Width
         {
             get { return width; }
             set
@@ -91,7 +91,7 @@ namespace Klarf
             }
         }
 
-        public double Height
+        public int Height
         {
             get { return height; }
             set
@@ -104,6 +104,19 @@ namespace Klarf
             }
         }
 
+        public Thickness Margin
+        {
+            get { return margin; }
+            set
+            {
+                if (margin != value)
+                {
+                    margin = value;
+                    OnPropertyChanged(nameof(Margin));
+                }
+            }
+        }
+
         #endregion
 
         #region [생성자]
@@ -112,7 +125,7 @@ namespace Klarf
             MainModel.Instance.PropertyChanged += MainModel_PropertyChanged;
             MainModel = MainModel.Instance;
             DieIndex = new ObservableCollection<DieIndexItem>();
-            DiePoint = new ObservableCollection<Point>();
+            //DiePoint = new List<Point>();
         }
 
         #endregion
@@ -136,56 +149,29 @@ namespace Klarf
             int xMin = mainModel.Wafer.xIndices.Min();
             int yMax = mainModel.Wafer.yIndices.Max();
 
-            //List<int> xList = new List<int>();
-            //List<int> yList = new List<int>();
-
             for (int i = 0; i < mainModel.Wafer.xIndex.Count; i++)
             {
-                if (i < mainModel.Wafer.xIndices.Count && i < mainModel.Wafer.yIndices.Count) // 범위 확인
+                int x = (mainModel.Wafer.xIndices[i] - xMin)*mainModel.Wafer.width;
+                int y = Math.Abs(mainModel.Wafer.yIndices[i] - yMax)*mainModel.Wafer.height;
+
+
+                //DieIndex.Add(new DieIndexItem
+                //{
+                //    DiePoint = new List<Point> { new Point { X = x, Y = y } },
+                //    Width = mainModel.Wafer.width,
+                //    Height = mainModel.Wafer.height
+                //});
+
+                var dieIndexItem = new DieIndexItem
                 {
-                    x = mainModel.Wafer.xIndices[i] - xMin;
-                    y = Math.Abs(mainModel.Wafer.yIndices[i] - yMax);
+                    DiePoint = new List<Point> { new Point { X = x, Y = y } },
+                    Height = mainModel.Wafer.height,
+                    Width = mainModel.Wafer.width,
+                    Margin = new Thickness(x, y, 0, 0)
+                };
 
-                    //xList[i] = x;
-                    //yList[i] = y;
-
-                    int[] xCounts = new int[50];
-                    int[] yCounts = new int[50];
-
-                    foreach (int yIndex in mainModel.Wafer.yIndices)
-                    {
-                        if (yIndex >= 0 && yIndex < 50)
-                        {
-                            xCounts[yIndex]++;
-                        }
-                    }
-
-                    foreach (int xIndex in mainModel.Wafer.xIndices)
-                    {
-                        if (xIndex >= 0 && xIndex < 50)
-                        {
-                            yCounts[xIndex]++;
-                        }
-                    }
-
-                    int xCount = xCounts.Max();
-                    int yCount = yCounts.Max();
-
-                    mainModel.Wafer.width = 400 / xCount;
-                    mainModel.Wafer.height = 400 / yCount;
-
-                    //Point savePoint = new Point { X = x, Y = y };
-
-
-                }
+                DieIndex.Add(dieIndexItem);
             }
-
-            DieIndex.Add(new DieIndexItem
-            {
-                DiePoint = new List<Point> { new Point { X = x, Y = y } },
-                Width = mainModel.Wafer.width,
-                Height = mainModel.Wafer.height
-            });
         }
 
         #endregion
@@ -196,6 +182,7 @@ namespace Klarf
             public List<Point> DiePoint { get; set; }
             public double Width { get; set; }
             public double Height { get; set; }
+            public Thickness Margin { get; set; }
         }
 
         #endregion
