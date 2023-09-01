@@ -93,6 +93,7 @@ namespace Klarf
             mainModel.GiveFileInfo();
             //mainModel.GiveDefectList();
             mainModel.GiveDieIndex();
+            mainModel.GiveDefectIndex();
         }
 
         #endregion

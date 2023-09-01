@@ -21,6 +21,8 @@ namespace Klarf
         MainModel mainModel;
         private ObservableCollection<DieIndexItem> dieIndex;
         private List<Point> diePoint;
+        private ObservableCollection<DefectIndexItem> defectIndex;
+        private List<Point> defectPoint;
         private int width;
         private int height;
         private Thickness margin;
@@ -78,6 +80,32 @@ namespace Klarf
             }
         }
 
+        public ObservableCollection<DefectIndexItem> DefectIndex
+        {
+            get { return defectIndex; }
+            set
+            {
+                if (defectIndex != value)
+                {
+                    defectIndex = value;
+                    OnPropertyChanged(nameof(DefectIndex));
+                }
+            }
+        }
+
+        public List<Point> DefectPoint
+        {
+            get { return defectPoint; }
+            set
+            {
+                if (defectPoint != value)
+                {
+                    defectPoint = value;
+                    OnPropertyChanged(nameof(DefectPoint));
+                }
+            }
+        }
+
         public int Width
         {
             get { return width; }
@@ -125,6 +153,7 @@ namespace Klarf
             MainModel.Instance.PropertyChanged += MainModel_PropertyChanged;
             MainModel = MainModel.Instance;
             DieIndex = new ObservableCollection<DieIndexItem>();
+            DefectIndex = new ObservableCollection<DefectIndexItem>();
             //DiePoint = new List<Point>();
         }
 
@@ -136,6 +165,10 @@ namespace Klarf
             if (e.PropertyName == "Wafer")
             {
                 ShowDie();
+            }
+            else if (e.PropertyName == "DefectDie")
+            {
+                ShowDefectDie();
             }
         }
 
@@ -154,14 +187,6 @@ namespace Klarf
                 int x = (mainModel.Wafer.xIndices[i] - xMin)*mainModel.Wafer.width;
                 int y = Math.Abs(mainModel.Wafer.yIndices[i] - yMax)*mainModel.Wafer.height;
 
-
-                //DieIndex.Add(new DieIndexItem
-                //{
-                //    DiePoint = new List<Point> { new Point { X = x, Y = y } },
-                //    Width = mainModel.Wafer.width,
-                //    Height = mainModel.Wafer.height
-                //});
-
                 var dieIndexItem = new DieIndexItem
                 {
                     DiePoint = new List<Point> { new Point { X = x, Y = y } },
@@ -172,14 +197,45 @@ namespace Klarf
 
                 DieIndex.Add(dieIndexItem);
             }
+
+            //mainModel.GiveDefectIndex();
         }
 
+        private void ShowDefectDie()
+        {
+            int xMin = mainModel.Wafer.xIndices.Min();
+            int yMax = mainModel.Wafer.yIndices.Max();
+
+            for (int i = 0; i < mainModel.DefectDie.xIndex.Count; i++)
+            {
+                int x = (mainModel.DefectDie.xIndices[i] - xMin) * mainModel.Wafer.width;
+                int y = Math.Abs(mainModel.DefectDie.yIndices[i] - yMax) * mainModel.Wafer.height;
+
+                var defectIndexItem = new DefectIndexItem
+                {
+                    DefectPoint = new List<Point> { new Point { X = x, Y = y } },
+                    Height = mainModel.Wafer.height,
+                    Width = mainModel.Wafer.width,
+                    Margin = new Thickness(x, y, 0, 0)
+                };
+
+                DefectIndex.Add(defectIndexItem);
+            }
+        }
         #endregion
 
         #region [종속 클래스]
         public class DieIndexItem
         {
             public List<Point> DiePoint { get; set; }
+            public double Width { get; set; }
+            public double Height { get; set; }
+            public Thickness Margin { get; set; }
+        }
+
+        public class DefectIndexItem
+        {
+            public List<Point> DefectPoint { get; set; }
             public double Width { get; set; }
             public double Height { get; set; }
             public Thickness Margin { get; set; }

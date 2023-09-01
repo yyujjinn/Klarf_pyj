@@ -59,6 +59,19 @@ namespace Klarf
             }
         }
 
+        public DefectModel DefectDie
+        {
+            get { return saveDefect; }
+            set
+            {
+                if (saveDefect != value)
+                {
+                    saveDefect = value;
+                    OnPropertyChanged("DefectDie");
+                }
+            }
+        }
+
         public FileModel FileData
         {
             get { return fileModel; }
@@ -147,60 +160,74 @@ namespace Klarf
             return partsDieIndex;
         }
 
-        public void GiveDieIndex ()
+        private int[] CountIndices(List<int> indices)
+        {
+            int[] counts = new int[50];
+            foreach (int index in indices)
+            {
+                if (index >= 0 && index < 50)
+                {
+                    counts[index]++;
+                }
+            }
+            return counts;
+        }
+
+        private int GetMaxCount(int[] counts)
+        {
+            return counts.Max();
+        }
+
+        private void SetWaferDimensions(WaferModel wafer, int xCount, int yCount)
+        {
+            wafer.width = 400 / xCount;
+            wafer.height = 400 / yCount;
+        }
+
+        public void GiveDieIndex()
         {
             WaferModel newWafer = new WaferModel();
 
             newWafer.xIndex = GetPartsDieIndex(0);
             newWafer.yIndex = GetPartsDieIndex(1);
 
-            newWafer.xIndices = new List<int>();
-            newWafer.yIndices = new List<int>();
+            newWafer.xIndices = ExtractIndices(newWafer.xIndex);
+            newWafer.yIndices = ExtractIndices(newWafer.yIndex);
 
-            foreach (string xIndexString in newWafer.xIndex)
-            {
-                if (int.TryParse(xIndexString, out int xIndex))
-                {
+            int[] xCounts = CountIndices(newWafer.yIndices);
+            int[] yCounts = CountIndices(newWafer.xIndices);
 
-                    newWafer.xIndices.Add(xIndex);
-                }
-            }
-
-            foreach (string yIndexString in newWafer.yIndex)
-            {
-                if (int.TryParse(yIndexString, out int yIndex))
-                {
-                    newWafer.yIndices.Add(yIndex);
-                }
-            }
-
-            int[] xCounts = new int[50];
-            int[] yCounts = new int[50];
-
-            foreach (int yIndex in newWafer.yIndices)
-            {
-                if (yIndex >= 0 && yIndex < 50)
-                {
-                    xCounts[yIndex]++;
-                }
-            }
-
-            foreach (int xIndex in newWafer.xIndices)
-            {
-                if (xIndex >= 0 && xIndex < 50)
-                {
-                    yCounts[xIndex]++;
-                }
-            }
-
-            int xCount = xCounts.Max();
-            int yCount = yCounts.Max();
-
-            newWafer.width = 400 / xCount;
-            newWafer.height = 400 / yCount;
+            SetWaferDimensions(newWafer, GetMaxCount(xCounts), GetMaxCount(yCounts));
 
             Instance.Wafer = newWafer;
         }
+
+        private List<int> ExtractIndices(List<string> indexStrings)
+        {
+            List<int> indices = new List<int>();
+            foreach (string indexString in indexStrings)
+            {
+                if (int.TryParse(indexString, out int index))
+                {
+                    indices.Add(index);
+                }
+            }
+            return indices;
+        }
+
+        public void GiveDefectIndex()
+        {
+            DefectModel newDefect = new DefectModel();
+
+            newDefect.xIndex = GetPartsDefectList(3);
+            newDefect.yIndex = GetPartsDefectList(4);
+
+            newDefect.xIndices = ExtractIndices(newDefect.xIndex);
+            newDefect.yIndices = ExtractIndices(newDefect.yIndex);
+
+            Instance.DefectDie = newDefect;
+        }
+
 
         public (string, DateTime) GiveFileList()
         {
@@ -263,25 +290,29 @@ namespace Klarf
                     }
                 }
 
-                newDefect.defectID = GetPartsDefectList(0);
-                newDefect.xRel = GetPartsDefectList(1);
-                newDefect.yRel = GetPartsDefectList(2);
-                newDefect.xIndex = GetPartsDefectList(3);
-                newDefect.yIndex = GetPartsDefectList(4);
-                newDefect.xSize = GetPartsDefectList(5);
-                newDefect.ySize = GetPartsDefectList(6);
-                newDefect.defectArea = GetPartsDefectList(7);
-                newDefect.dSize = GetPartsDefectList(8);
-                newDefect.classNumber = GetPartsDefectList(9);
-                newDefect.test = GetPartsDefectList(10);
-                newDefect.clusterNumber = GetPartsDefectList(11);
-                newDefect.roughBinNumber = GetPartsDefectList(12);
-                newDefect.fineBinNumber = GetPartsDefectList(13);
-                newDefect.reviewSample = GetPartsDefectList(14);
-                newDefect.imageCount = GetPartsDefectList(15);
-
+                GetDefectList(newDefect);
                 Instance.Defect = newDefect;
             }
+        }
+
+        private void GetDefectList(DefectModel defect)
+        {
+            defect.defectID = GetPartsDefectList(0);
+            defect.xRel = GetPartsDefectList(1);
+            defect.yRel = GetPartsDefectList(2);
+            defect.xIndex = GetPartsDefectList(3);
+            defect.yIndex = GetPartsDefectList(4);
+            defect.xSize = GetPartsDefectList(5);
+            defect.ySize = GetPartsDefectList(6);
+            defect.defectArea = GetPartsDefectList(7);
+            defect.dSize = GetPartsDefectList(8);
+            defect.classNumber = GetPartsDefectList(9);
+            defect.test = GetPartsDefectList(10);
+            defect.clusterNumber = GetPartsDefectList(11);
+            defect.roughBinNumber = GetPartsDefectList(12);
+            defect.fineBinNumber = GetPartsDefectList(13);
+            defect.reviewSample = GetPartsDefectList(14);
+            defect.imageCount = GetPartsDefectList(15);
         }
 
         public List<string> GetPartsDefectList(int partIndex)
