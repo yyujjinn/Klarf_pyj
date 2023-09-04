@@ -94,6 +94,7 @@ namespace Klarf
             //mainModel.GiveDefectList();
             mainModel.GiveDieIndex();
             mainModel.GiveDefectIndex();
+            mainModel.LoadTiffFile();
         }
 
         #endregion

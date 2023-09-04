@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Input;
 
 namespace Klarf
 {
@@ -36,11 +37,15 @@ namespace Klarf
         ObservableCollection<string> imageCount;
 
         private string displayFileInfo;
+        private DefectItem selectedDefect;
         MainModel mainModel;
 
         #endregion
 
         #region [속성]
+        public ICommand PreviousImageCommand { get; }
+        public ICommand NextImageCommand { get; }
+
         public MainModel MainModel
         {
             get { return mainModel; }
@@ -248,30 +253,46 @@ namespace Klarf
             }
         }
 
+        public DefectItem SelectedDefect
+        {
+            get { return selectedDefect; }
+            set
+            {
+                if (selectedDefect != value)
+                {
+                    selectedDefect = value;
+                    OnPropertyChanged("SelectedDefect");
+                    SelectDefect();
+                }
+            }
+        }
+
         #endregion
 
         #region [생성자]
         public DefectInfoViewModel()
         {
+            PreviousImageCommand = new RelayCommand<object>(ChangePreviousImage);
+            NextImageCommand = new RelayCommand<object>(ChangeNextImage);
             MainModel.Instance.PropertyChanged += MainModel_PropertyChanged;
             MainModel = MainModel.Instance;
             defectList = new ObservableCollection<DefectItem>();
             defectID = new ObservableCollection<string>();
             xRel = new ObservableCollection<string>();
             yRel = new ObservableCollection<string>();
-            xIndex = new ObservableCollection<string>() ;
-            yIndex = new ObservableCollection<string>() ;
-            xSize = new ObservableCollection<string>() ;
-            ySize = new ObservableCollection<string>() ;
-            defectArea = new ObservableCollection<string>() ;
-            dSize = new ObservableCollection<string>() ;
-            classNumber = new ObservableCollection<string>() ;
-            test = new ObservableCollection<string>() ;
-            clusterNumber = new ObservableCollection<string>() ;
-            roughBinNumber = new ObservableCollection<string>() ;
-            fineBinNumber = new ObservableCollection<string>() ;
-            reviewSample = new ObservableCollection<string>() ;
-            imageCount = new ObservableCollection<string>() ;
+            xIndex = new ObservableCollection<string>();
+            yIndex = new ObservableCollection<string>();
+            xSize = new ObservableCollection<string>();
+            ySize = new ObservableCollection<string>();
+            defectArea = new ObservableCollection<string>();
+            dSize = new ObservableCollection<string>();
+            classNumber = new ObservableCollection<string>();
+            test = new ObservableCollection<string>();
+            clusterNumber = new ObservableCollection<string>();
+            roughBinNumber = new ObservableCollection<string>();
+            fineBinNumber = new ObservableCollection<string>();
+            reviewSample = new ObservableCollection<string>();
+            imageCount = new ObservableCollection<string>();
 
         }
 
@@ -300,7 +321,7 @@ namespace Klarf
             fileInfo.AppendLine(mainModel.Defect.waferID + "\n");
             fileInfo.AppendLine(mainModel.Defect.lotID + "\n");
             fileInfo.AppendLine(mainModel.Defect.deviceID);
-            //string combinedInfo = string.Join("\n", mainModel.Wafer);
+
             DisplayFileInfo = fileInfo.ToString();
         }
 
@@ -347,6 +368,22 @@ namespace Klarf
             }
         }
 
+        private void ChangePreviousImage(object parameter)
+        {
+            mainModel.LoadPreviousImage();
+        }
+
+        private void ChangeNextImage(object parameter)
+        {
+            mainModel.LoadNextImage();
+        }
+
+        private void SelectDefect()
+        {
+            string selectedDefectID = selectedDefect.DefectID;
+            mainModel.UpdateTiffFile(selectedDefectID);
+        }
+
         #endregion
 
         #region [종속 클래스]
@@ -373,32 +410,3 @@ namespace Klarf
         #endregion
     }
 }
-
-
-
-        //public List<string> GetDefectList(string filePath)
-        //{
-        //    List<string> defectID = GetPartsDefectList(filePath, 0);
-        //    List<string> XRel = GetPartsDefectList(filePath, 1);
-        //    List<string> YRel = GetPartsDefectList(filePath, 2);
-        //    List<string> XIndex = GetPartsDefectList(filePath, 3);
-        //    List<string> YIndex = GetPartsDefectList(filePath, 4);
-        //    List<string> XSize = GetPartsDefectList(filePath, 5);
-        //    List<string> YSize = GetPartsDefectList(filePath, 6);
-        //    List<string> DefectArea = GetPartsDefectList(filePath, 7);
-        //    List<string> DSize = GetPartsDefectList(filePath, 8);
-        //    List<string> ClassNumber = GetPartsDefectList(filePath, 9);
-        //    List<string> Test = GetPartsDefectList(filePath, 10);
-        //    List<string> ClusterNumber = GetPartsDefectList(filePath, 11);
-        //    List<string> RoughBinNumber = GetPartsDefectList(filePath, 12);
-        //    List<string> FineBinNumber = GetPartsDefectList(filePath, 13);
-        //    List<string> ReviewSample = GetPartsDefectList(filePath, 14);
-        //    List<string> ImageCount = GetPartsDefectList(filePath, 15);
-
-        //    List<string> defectList = new List<string>();
-
-        //    for (int i = 0; i < ImageCount.Count; i++)
-        //    {
-
-        //    }
-        //}

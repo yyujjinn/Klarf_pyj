@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace Klarf
 {
@@ -17,6 +14,7 @@ namespace Klarf
         private DefectModel saveDefect;
         private FileModel fileModel;
         private static MainModel instance = null;
+        private int currentImageIndex;
 
         #endregion
 
@@ -72,6 +70,47 @@ namespace Klarf
             }
         }
 
+        public DefectModel DefectImage
+        {
+            get { return saveDefect; }
+            set
+            {
+                if (saveDefect != value)
+                {
+                    saveDefect = value;
+                    OnPropertyChanged(nameof(DefectImage));
+                    CurrentImageIndex = saveDefect.currentImageIndex;
+                }
+            }
+        }
+
+        public DefectModel NextDefectImage
+        {
+            get { return saveDefect; }
+            set
+            {
+                if (saveDefect != value)
+                {
+                    saveDefect = value;
+                    OnPropertyChanged("NextDefectImage");
+                }
+            }
+        }
+
+        public int CurrentImageIndex
+        {
+            get { return currentImageIndex; }
+            set
+            {
+                if (currentImageIndex != value)
+                {
+                    currentImageIndex = value;
+                    OnPropertyChanged(nameof(CurrentImageIndex));
+                }
+            }
+        }
+
+
         public FileModel FileData
         {
             get { return fileModel; }
@@ -96,6 +135,7 @@ namespace Klarf
             Defect = new DefectModel();
             Wafer = new WaferModel();
             //xIndices = new List<int>();
+            //Defect.currentImageIndex = 0;
         }
 
         #endregion
@@ -110,7 +150,6 @@ namespace Klarf
         public void LoadFilePath()
         {
             FileData.filePath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf\Klarf Format.001";
-
         }
 
         public (string, DateTime) LoadFileList()
@@ -357,6 +396,44 @@ namespace Klarf
                 }
             }
             return partsDefectList;
+        }
+
+        public void LoadTiffFile()
+        {
+            DefectModel newDefect = new DefectModel();
+
+            newDefect.currentImageIndex = 0;
+
+            Instance.DefectImage = newDefect;
+        }
+
+        public void UpdateTiffFile(string selectedDefectID)
+        {
+            DefectModel newDefect = new DefectModel();
+
+            newDefect.currentImageIndex = int.Parse(selectedDefectID);
+
+            Instance.DefectImage = newDefect;
+        }
+
+        public void LoadPreviousImage()
+        {
+            DefectModel newDefect = new DefectModel();
+
+            if (currentImageIndex > 0)
+            {
+                newDefect.currentImageIndex = currentImageIndex - 1;
+            }
+            Instance.DefectImage = newDefect;
+        }
+
+        public void LoadNextImage()
+        {
+            DefectModel newDefect = new DefectModel();
+
+            newDefect.currentImageIndex = currentImageIndex + 1;
+
+            Instance.DefectImage = newDefect;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

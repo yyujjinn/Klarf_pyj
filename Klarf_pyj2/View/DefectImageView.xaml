@@ -11,6 +11,6 @@
         <vm:DefectImageViewModel/>
     </UserControl.DataContext>
     <Grid>
-
+        <Image Source="{Binding LoadedImage}" Width="400" Height="400" />
     </Grid>
 </UserControl>

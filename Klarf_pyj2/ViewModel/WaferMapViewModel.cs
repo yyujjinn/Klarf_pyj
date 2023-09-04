@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Klarf
 {
@@ -30,6 +31,9 @@ namespace Klarf
         #endregion
 
         #region [속성]
+        public ICommand ShowCoordinatesCommand { get; }
+        public ICommand HideCoordinatesCommand { get; }
+
         public MainModel MainModel
         {
             get { return mainModel; }
@@ -154,7 +158,8 @@ namespace Klarf
             MainModel = MainModel.Instance;
             DieIndex = new ObservableCollection<DieIndexItem>();
             DefectIndex = new ObservableCollection<DefectIndexItem>();
-            //DiePoint = new List<Point>();
+            ShowCoordinatesCommand = new RelayCommand<object>(ShowCoordinates);
+            HideCoordinatesCommand = new RelayCommand<object>(HideCoordinates);
         }
 
         #endregion
@@ -197,8 +202,6 @@ namespace Klarf
 
                 DieIndex.Add(dieIndexItem);
             }
-
-            //mainModel.GiveDefectIndex();
         }
 
         private void ShowDefectDie()
@@ -222,6 +225,30 @@ namespace Klarf
                 DefectIndex.Add(defectIndexItem);
             }
         }
+
+        private void OnMouseEnterDie(object sender, MouseEventArgs e)
+        {
+            // 마우스 커서의 위치를 가져옵니다.
+            Point mousePosition = e.GetPosition(waferMap); // 'waferMap'은 웨이퍼 맵을 나타내는 UI 요소입니다.
+
+            // 여기서 'waferMap'에 따라 다이의 위치를 계산하고 선택된 다이를 결정합니다.
+            int selectedDieIndex = CalculateSelectedDieIndex(mousePosition);
+
+            // 선택된 다이의 정보를 사용하여 좌표를 표시하거나 저장합니다.
+            if (selectedDieIndex >= 0 && selectedDieIndex < mainModel.Wafer.xIndex.Count)
+            {
+                string xIndex = mainModel.Wafer.xIndex[selectedDieIndex];
+                string yIndex = mainModel.Wafer.yIndex[selectedDieIndex];
+                string coordinatesText = "(" + xIndex + ", " + yIndex + ")";
+                // 여기서 좌표 정보를 표시하거나 다른 작업을 수행합니다.
+            }
+        }
+
+        private void ShowCoordinates()
+        {
+            string coordinatesText = "(" + mainModel.Wafer.xIndex + ", " + mainModel.Wafer.yIndex;
+        }
+
         #endregion
 
         #region [종속 클래스]

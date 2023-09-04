@@ -3,15 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:Klarf"
         xmlns:vm="clr-namespace:Klarf"
         mc:Ignorable="d"
         Height="400" Width="400">
-    <UserControl.DataContext>
-        <vm:WaferMapViewModel/>
-    </UserControl.DataContext>
-    <Grid>
-        <ItemsControl ItemsSource="{Binding DieIndex}">
+    <UserControl.Resources>
+        <local:WaferMapViewModel x:Key="ViewModel"/>
+    </UserControl.Resources>
+    <Grid DataContext="{StaticResource ViewModel}">
+        <ItemsControl Name="waferMap" ItemsSource="{Binding DieIndex}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -21,7 +22,20 @@
                 <DataTemplate>
                     <Rectangle Width="{Binding Width}" Height="{Binding Height}" 
                                Margin="{Binding Margin}" Fill="LightGray"
-                               StrokeThickness="1" Stroke="White"/>
+                               StrokeThickness="1" Stroke="White">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseEnter">
+                                <i:InvokeCommandAction Command="{Binding DataContext.ShowCoordinatesCommand, 
+                                              RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                              CommandParameter="{Binding}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <i:InvokeCommandAction Command="{Binding DataContext.HideCoordinatesCommand, 
+                                              RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                              CommandParameter="{Binding}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Rectangle>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>

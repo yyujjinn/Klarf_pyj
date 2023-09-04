@@ -40,7 +40,7 @@
                FontSize="10.5"
                Content="{Binding DisplayFileInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                />
-        <Button x:Name="leftButton" Grid.Column="1" Grid.Row="2" Background="White" BorderThickness="0">
+        <Button x:Name="leftButton" Grid.Column="1" Grid.Row="2" Background="White" BorderThickness="0" Command="{Binding PreviousImageCommand}">
             <ContentControl>
                 <Image Source="C:\Users\yjyu\Downloads\leftarrow.png"
                        Width="50"
@@ -48,7 +48,7 @@
                        />
             </ContentControl>
         </Button>
-        <Button x:Name="rightButton" Grid.Column="2" Grid.Row="2" Background="White" BorderThickness="0">
+        <Button x:Name="rightButton" Grid.Column="2" Grid.Row="2" Background="White" BorderThickness="0" Command="{Binding NextImageCommand}">
             <ContentControl>
                 <Image Source="C:\Users\yjyu\Downloads\rightarrow.png"
                        Width="50"
@@ -57,7 +57,7 @@
             </ContentControl>
 
         </Button>
-        <ListView Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" FontSize="10" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding DefectList}">
+        <ListView Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" FontSize="10" ScrollViewer.HorizontalScrollBarVisibility="Visible" ItemsSource="{Binding DefectList}" SelectedItem="{Binding SelectedDefect, Mode=TwoWay}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="DEFECTID" DisplayMemberBinding="{Binding DefectID}"/>
