@@ -41,12 +41,54 @@
                     <Canvas/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Rectangle Width="{Binding Width}" Height="{Binding Height}" 
                                Margin="{Binding Margin}" Fill="Red"
-                               StrokeThickness="1" Stroke="White"/>
+                               DataContext="{Binding}">
+                            <!--<Rectangle.ToolTip>
+                                <ToolTip>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="X={0}, Y={1}">
+                                                <Binding Path="DefectPoint.X"/>
+                                                <Binding Path="DefectPoint.Y"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </ToolTip>
+                            </Rectangle.ToolTip>-->
+                            <Rectangle.InputBindings>
+                                <MouseBinding Gesture="LeftClick" Command="{Binding DieClickCommand}" CommandParameter="{Binding}" />
+                            </Rectangle.InputBindings>
+                            <Rectangle.Style>
+                                <Style TargetType="Rectangle">
+                                    <Setter Property="Stroke" Value="White"/>
+                                    <Setter Property="StrokeThickness" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Stroke" Value="Blue"/>
+                                            <Setter Property="StrokeThickness" Value="2"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction 
+                                            Command="{Binding SelectCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+                        </Rectangle>
                         <TextBlock Text="{Binding Text}" Background="FloralWhite" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,8">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
@@ -61,16 +103,9 @@
                         </TextBlock>
                     </Grid>
 
+
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemContainerStyle>
-                <Style>
-                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-            
-            
         </ItemsControl>
         
         

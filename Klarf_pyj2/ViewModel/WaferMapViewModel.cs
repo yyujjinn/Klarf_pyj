@@ -27,12 +27,12 @@ namespace Klarf
         private int width;
         private int height;
         private Thickness margin;
+        private DefectIndexItem selectedDie;
 
         #endregion
 
         #region [속성]
-        //public ICommand ShowCoordinatesCommand { get; }
-        //public ICommand HideCoordinatesCommand { get; }
+        public ICommand DieClickCommand { get; }
 
         public MainModel MainModel
         {
@@ -149,6 +149,25 @@ namespace Klarf
             }
         }
 
+        public DefectIndexItem SelectedDie
+        {
+            get { return selectedDie; }
+            set
+            {
+                if (selectedDie != value)
+                {
+                    if (selectedDie != null)
+                        selectedDie.IsSelected = false;
+
+                    selectedDie = value;
+                    if (selectedDie != null)
+                        selectedDie.IsSelected = true;
+
+                    OnPropertyChanged(nameof(SelectedDie));
+                }
+            }
+        }
+
         #endregion
 
         #region [생성자]
@@ -158,8 +177,7 @@ namespace Klarf
             MainModel = MainModel.Instance;
             DieIndex = new ObservableCollection<DieIndexItem>();
             DefectIndex = new ObservableCollection<DefectIndexItem>();
-            //ShowCoordinatesCommand = new RelayCommand<object>(ShowCoordinates);
-            //HideCoordinatesCommand = new RelayCommand<object>(HideCoordinates);
+            DieClickCommand = new RelayCommand<object>(OnDieClick);
         }
 
         #endregion
@@ -219,7 +237,7 @@ namespace Klarf
 
                 var defectIndexItem = new DefectIndexItem
                 {
-                    DefectPoint = new List<Point> { new Point { X = x, Y = y } },
+                    DefectPoint = new Point {X = x, Y = y},
                     Height = mainModel.Wafer.height,
                     Width = mainModel.Wafer.width,
                     Margin = new Thickness(x, y, 0, 0),
@@ -229,6 +247,22 @@ namespace Klarf
 
                 DefectIndex.Add(defectIndexItem);
             }
+        }
+
+        private void OnDieClick(object parameter)
+        {
+            var target = parameter as DefectIndexItem;
+            int index = -1;
+            for (int i = 0; i < DefectIndex.Count; i++)
+            {
+                if (target.DefectPoint == DefectIndex[i].DefectPoint)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            DefectIndex[index].IsSelected = !DefectIndex[index].IsSelected;
         }
 
         #endregion
@@ -243,13 +277,53 @@ namespace Klarf
             public Thickness Margin { get; set; }
         }
 
-        public class DefectIndexItem
+        public class DefectIndexItem : INotifyPropertyChanged
         {
-            public List<Point> DefectPoint { get; set; }
+            private ICommand selectCommand;
+            public ICommand SelectCommand
+            {
+                get
+                {
+                    if (selectCommand == null)
+                    {
+                        selectCommand = new RelayCommand<object>((param) =>
+                        {
+                            WaferMapViewModel parentVM = param as WaferMapViewModel;
+                            if (parentVM != null)
+                            {
+                                parentVM.SelectedDie = this;
+                                Point selectedCoordinate = DefectPoint;
+                            }
+                        });
+                    }
+                    return selectCommand;
+                }
+            }
+            private bool isSelected;
+            public bool IsSelected
+            {
+                get { return isSelected; }
+                set
+                {
+                    if (isSelected != value)
+                    {
+                        isSelected = value;
+                        OnPropertyChanged(nameof(IsSelected));
+                    }
+                }
+            }
+
+            public Point DefectPoint { get; set; }
             public double Width { get; set; }
             public double Height { get; set; }
             public Thickness Margin { get; set; }
             public string Text { get; set; }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+            protected virtual void OnPropertyChanged(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         #endregion
