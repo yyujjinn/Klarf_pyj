@@ -31,8 +31,8 @@ namespace Klarf
         #endregion
 
         #region [속성]
-        public ICommand ShowCoordinatesCommand { get; }
-        public ICommand HideCoordinatesCommand { get; }
+        //public ICommand ShowCoordinatesCommand { get; }
+        //public ICommand HideCoordinatesCommand { get; }
 
         public MainModel MainModel
         {
@@ -158,8 +158,8 @@ namespace Klarf
             MainModel = MainModel.Instance;
             DieIndex = new ObservableCollection<DieIndexItem>();
             DefectIndex = new ObservableCollection<DefectIndexItem>();
-            ShowCoordinatesCommand = new RelayCommand<object>(ShowCoordinates);
-            HideCoordinatesCommand = new RelayCommand<object>(HideCoordinates);
+            //ShowCoordinatesCommand = new RelayCommand<object>(ShowCoordinates);
+            //HideCoordinatesCommand = new RelayCommand<object>(HideCoordinates);
         }
 
         #endregion
@@ -197,7 +197,7 @@ namespace Klarf
                     DiePoint = new List<Point> { new Point { X = x, Y = y } },
                     Height = mainModel.Wafer.height,
                     Width = mainModel.Wafer.width,
-                    Margin = new Thickness(x, y, 0, 0)
+                    Margin = new Thickness(x, y, 0, 0),
                 };
 
                 DieIndex.Add(dieIndexItem);
@@ -214,39 +214,21 @@ namespace Klarf
                 int x = (mainModel.DefectDie.xIndices[i] - xMin) * mainModel.Wafer.width;
                 int y = Math.Abs(mainModel.DefectDie.yIndices[i] - yMax) * mainModel.Wafer.height;
 
+                int xText = mainModel.Wafer.xIndices[i];
+                int yText = mainModel.Wafer.yIndices[i];
+
                 var defectIndexItem = new DefectIndexItem
                 {
                     DefectPoint = new List<Point> { new Point { X = x, Y = y } },
                     Height = mainModel.Wafer.height,
                     Width = mainModel.Wafer.width,
-                    Margin = new Thickness(x, y, 0, 0)
+                    Margin = new Thickness(x, y, 0, 0),
+
+                    Text = string.Format("( {0}, {1} )", xText, yText)
                 };
 
                 DefectIndex.Add(defectIndexItem);
             }
-        }
-
-        private void OnMouseEnterDie(object sender, MouseEventArgs e)
-        {
-            // 마우스 커서의 위치를 가져옵니다.
-            Point mousePosition = e.GetPosition(waferMap); // 'waferMap'은 웨이퍼 맵을 나타내는 UI 요소입니다.
-
-            // 여기서 'waferMap'에 따라 다이의 위치를 계산하고 선택된 다이를 결정합니다.
-            int selectedDieIndex = CalculateSelectedDieIndex(mousePosition);
-
-            // 선택된 다이의 정보를 사용하여 좌표를 표시하거나 저장합니다.
-            if (selectedDieIndex >= 0 && selectedDieIndex < mainModel.Wafer.xIndex.Count)
-            {
-                string xIndex = mainModel.Wafer.xIndex[selectedDieIndex];
-                string yIndex = mainModel.Wafer.yIndex[selectedDieIndex];
-                string coordinatesText = "(" + xIndex + ", " + yIndex + ")";
-                // 여기서 좌표 정보를 표시하거나 다른 작업을 수행합니다.
-            }
-        }
-
-        private void ShowCoordinates()
-        {
-            string coordinatesText = "(" + mainModel.Wafer.xIndex + ", " + mainModel.Wafer.yIndex;
         }
 
         #endregion
@@ -255,6 +237,7 @@ namespace Klarf
         public class DieIndexItem
         {
             public List<Point> DiePoint { get; set; }
+            public List<Point> DefectPoint { get; set; }
             public double Width { get; set; }
             public double Height { get; set; }
             public Thickness Margin { get; set; }
@@ -266,6 +249,7 @@ namespace Klarf
             public double Width { get; set; }
             public double Height { get; set; }
             public Thickness Margin { get; set; }
+            public string Text { get; set; }
         }
 
         #endregion

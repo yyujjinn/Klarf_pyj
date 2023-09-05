@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Klarf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="830" Width="810">
+        Title="MainWindow" Height="830" Width="950">
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="540"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="400"/>

@@ -11,15 +11,15 @@
         <vm:DefectInfoViewModel/>
     </UserControl.DataContext>
 
-    <Grid>
+    <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="180"/>
-            <ColumnDefinition Width="110"/>
-            <ColumnDefinition Width="110"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="170"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="110"/>
+            <RowDefinition Height="37"/>
+            <RowDefinition Height="93"/>
             <RowDefinition Height="70"/>
             <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
@@ -29,15 +29,16 @@
                    Grid.Row="0"
                    Text="Sample Information"
                    HorizontalAlignment="Center"
-                   FontSize="13"
-                   FontWeight="Bold"
+                   VerticalAlignment="Bottom"
+                   FontSize="15"
+                   FontWeight="Bold" Margin="29,0" Width="142"
                    />
         <Label x:Name="fileInfoLabel"
                Grid.RowSpan="2"
                Grid.Column="0"
                Grid.Row="1"
                HorizontalContentAlignment="Left"
-               FontSize="10.5"
+               FontSize="13"
                Content="{Binding DisplayFileInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                />
         <Button x:Name="leftButton" Grid.Column="1" Grid.Row="2" Background="White" BorderThickness="0" Command="{Binding PreviousImageCommand}">

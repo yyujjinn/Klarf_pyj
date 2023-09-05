@@ -8,11 +8,11 @@
         xmlns:vm="clr-namespace:Klarf"
         mc:Ignorable="d"
         Height="400" Width="400">
-    <UserControl.Resources>
-        <local:WaferMapViewModel x:Key="ViewModel"/>
-    </UserControl.Resources>
-    <Grid DataContext="{StaticResource ViewModel}">
-        <ItemsControl Name="waferMap" ItemsSource="{Binding DieIndex}">
+    <UserControl.DataContext>
+        <vm:WaferMapViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <ItemsControl x:Name="waferMap" ItemsSource="{Binding DieIndex}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -23,19 +23,8 @@
                     <Rectangle Width="{Binding Width}" Height="{Binding Height}" 
                                Margin="{Binding Margin}" Fill="LightGray"
                                StrokeThickness="1" Stroke="White">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <i:InvokeCommandAction Command="{Binding DataContext.ShowCoordinatesCommand, 
-                                              RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                              CommandParameter="{Binding}"/>
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseLeave">
-                                <i:InvokeCommandAction Command="{Binding DataContext.HideCoordinatesCommand, 
-                                              RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                              CommandParameter="{Binding}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Rectangle>
+                        </Rectangle>
+
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
@@ -54,9 +43,24 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Rectangle Width="{Binding Width}" Height="{Binding Height}" 
+                    <Grid>
+                        <Rectangle Width="{Binding Width}" Height="{Binding Height}" 
                                Margin="{Binding Margin}" Fill="Red"
                                StrokeThickness="1" Stroke="White"/>
+                        <TextBlock Text="{Binding Text}" Background="FloralWhite" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,8">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ContentPresenter}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>
@@ -65,6 +69,10 @@
                     <Setter Property="Canvas.Top" Value="{Binding Y}"/>
                 </Style>
             </ItemsControl.ItemContainerStyle>
+            
+            
         </ItemsControl>
+        
+        
     </Grid>
 </UserControl>
