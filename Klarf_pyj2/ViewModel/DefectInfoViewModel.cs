@@ -364,23 +364,43 @@ namespace Klarf
                     ReviewSample = reviewSamples[i],
                     ImageCount = imageCounts[i]
                 });
+
             }
         }
 
         private void ChangePreviousImage(object parameter)
         {
-            mainModel.LoadPreviousImage();
+            int selectedIndex = DefectList.IndexOf(SelectedDefect);
+
+            int nextIndex = selectedIndex - 1;
+
+            if (nextIndex < 0 || nextIndex >= 453)
+            {
+                nextIndex = 0;
+            }
+
+            SelectedDefect = DefectList[nextIndex];
         }
 
         private void ChangeNextImage(object parameter)
         {
-            mainModel.LoadNextImage();
+            int selectedIndex = DefectList.IndexOf(SelectedDefect);
+
+            int nextIndex = selectedIndex + 1;
+
+            if(nextIndex >= 453)
+            {
+                nextIndex = 0;
+            }
+
+            SelectedDefect = DefectList[nextIndex];
         }
 
         private void SelectDefect()
         {
-            string selectedDefectID = selectedDefect.DefectID;
-            mainModel.UpdateTiffFile(selectedDefectID);
+            int selectedDefectIndex = DefectList.IndexOf(selectedDefect);
+
+            mainModel.UpdateTiffFile(selectedDefectIndex);
         }
 
         #endregion

@@ -228,15 +228,15 @@ namespace Klarf
 
             for (int i = 0; i < mainModel.DefectDie.xIndex.Count; i++)
             {
-                int x = (mainModel.DefectDie.xIndices[i] - xMin) * mainModel.Wafer.width;
-                int y = Math.Abs(mainModel.DefectDie.yIndices[i] - yMax) * mainModel.Wafer.height;
+                int x = (mainModel.Defect.xIndices[i] - xMin) * mainModel.Wafer.width;
+                int y = Math.Abs(mainModel.Defect.yIndices[i] - yMax) * mainModel.Wafer.height;
 
-                int xText = mainModel.Wafer.xIndices[i];
-                int yText = mainModel.Wafer.yIndices[i];
+                int xText = mainModel.Defect.xIndices[i];
+                int yText = mainModel.Defect.yIndices[i];
 
                 var defectIndexItem = new DefectIndexItem
                 {
-                    DefectPoint = new Point {X = x, Y = y},
+                    DefectPoint = new Point { X = x, Y = y },
                     Height = mainModel.Wafer.height,
                     Width = mainModel.Wafer.width,
                     Margin = new Thickness(x, y, 0, 0),
@@ -264,11 +264,34 @@ namespace Klarf
         public class DefectIndexItem : INotifyPropertyChanged
         {
             #region [필드]
+            MainModel mainModel;
             private ICommand selectCommand;
-
             #endregion
 
             #region [속성]
+            public MainModel MainModel
+            {
+                get { return mainModel; }
+
+                set
+                {
+                    if (mainModel != value)
+                    {
+                        if (mainModel != null)
+                        {
+                            mainModel.PropertyChanged -= MainModel_PropertyChanged;
+                        }
+
+                        mainModel = value;
+
+                        if (mainModel != null)
+                        {
+                            mainModel.PropertyChanged += MainModel_PropertyChanged;
+                        }
+                        OnPropertyChanged("MainModel");
+                    }
+                }
+            }
             public ICommand SelectCommand
             {
                 get
@@ -277,11 +300,12 @@ namespace Klarf
                     {
                         selectCommand = new RelayCommand<object>((param) =>
                         {
-                            WaferMapViewModel parentVM = param as WaferMapViewModel;
-                            if (parentVM != null)
+                            WaferMapViewModel waferMapViewModel = param as WaferMapViewModel;
+                            if (waferMapViewModel != null)
                             {
-                                parentVM.SelectedDie = this;
+                                waferMapViewModel.SelectedDie = this;
                                 Point selectedCoordinate = DefectPoint;
+                                mainModel.ConvertImageIndex(selectedCoordinate);
                             }
                         });
                     }
@@ -312,11 +336,28 @@ namespace Klarf
 
             #endregion
 
+            #region [생성자]
+            public DefectIndexItem()
+            {
+                MainModel.Instance.PropertyChanged += MainModel_PropertyChanged;
+                MainModel = MainModel.Instance;
+            }
+
+            #endregion
+
             #region [메서드]
             public event PropertyChangedEventHandler PropertyChanged;
             protected virtual void OnPropertyChanged(string propertyName)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+            private void MainModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == "Wafer")
+                {
+                    
+                }
             }
 
             #endregion

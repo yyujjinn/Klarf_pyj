@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace Klarf
 {
@@ -407,33 +408,53 @@ namespace Klarf
             Instance.DefectImage = newDefect;
         }
 
-        public void UpdateTiffFile(string selectedDefectID)
+        public void UpdateTiffFile(int selectedIndex)
         {
             DefectModel newDefect = new DefectModel();
 
-            newDefect.currentImageIndex = int.Parse(selectedDefectID);
+            newDefect.currentImageIndex = selectedIndex;
 
             Instance.DefectImage = newDefect;
+            CurrentImageIndex = selectedIndex;
         }
 
-        public void LoadPreviousImage()
+        public void ConvertImageIndex(Point selectedCoordinate)
         {
             DefectModel newDefect = new DefectModel();
 
-            if (currentImageIndex > 0)
+            newDefect.xIndex = GetPartsDefectList(3);
+            newDefect.yIndex = GetPartsDefectList(4);
+            newDefect.xIndices = ExtractIndices(newDefect.xIndex);
+            newDefect.yIndices = ExtractIndices(newDefect.yIndex);
+            newDefect.defectID = GetPartsDefectList(0);
+
+            WaferModel newWafer = new WaferModel();
+
+            newWafer.width = 400 / 20;
+            newWafer.height = 400 / 50;
+
+            newWafer.xIndex = GetPartsDieIndex(0);
+            newWafer.yIndex = GetPartsDieIndex(1);
+            newWafer.xIndices = ExtractIndices(newWafer.xIndex);
+            newWafer.yIndices = ExtractIndices(newWafer.yIndex);
+
+            int xMin = newWafer.xIndices.Min();
+            int yMax = newWafer.yIndices.Max();
+
+            for (int i = 0; i < newDefect.xIndex.Count; i++)
             {
-                newDefect.currentImageIndex = currentImageIndex - 1;
+                int newX = (newDefect.xIndices[i] - xMin) * newWafer.width;
+                int newY = Math.Abs(newDefect.yIndices[i] - yMax) * newWafer.height;
+
+                if (selectedCoordinate.X == newX)
+                {
+                    if (selectedCoordinate.Y == newY)
+                    {
+                        int index = int.Parse(newDefect.defectID[i]) -1;
+                        UpdateTiffFile(index);
+                    }
+                }
             }
-            Instance.DefectImage = newDefect;
-        }
-
-        public void LoadNextImage()
-        {
-            DefectModel newDefect = new DefectModel();
-
-            newDefect.currentImageIndex = currentImageIndex + 1;
-
-            Instance.DefectImage = newDefect;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

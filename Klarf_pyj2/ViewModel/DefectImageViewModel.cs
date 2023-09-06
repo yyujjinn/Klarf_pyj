@@ -56,10 +56,6 @@ namespace Klarf
             {
                 ShowTifImage();
             }
-            //else if (e.PropertyName == "NextDefectImage")
-            //{
-            //    ShowTifImage();
-            //}
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
