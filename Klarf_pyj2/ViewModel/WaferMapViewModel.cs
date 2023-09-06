@@ -177,7 +177,6 @@ namespace Klarf
             MainModel = MainModel.Instance;
             DieIndex = new ObservableCollection<DieIndexItem>();
             DefectIndex = new ObservableCollection<DefectIndexItem>();
-            DieClickCommand = new RelayCommand<object>(OnDieClick);
         }
 
         #endregion
@@ -249,21 +248,6 @@ namespace Klarf
             }
         }
 
-        private void OnDieClick(object parameter)
-        {
-            var target = parameter as DefectIndexItem;
-            int index = -1;
-            for (int i = 0; i < DefectIndex.Count; i++)
-            {
-                if (target.DefectPoint == DefectIndex[i].DefectPoint)
-                {
-                    index = i;
-                    break;
-                }
-            }
-
-            DefectIndex[index].IsSelected = !DefectIndex[index].IsSelected;
-        }
 
         #endregion
 
@@ -279,7 +263,12 @@ namespace Klarf
 
         public class DefectIndexItem : INotifyPropertyChanged
         {
+            #region [필드]
             private ICommand selectCommand;
+
+            #endregion
+
+            #region [속성]
             public ICommand SelectCommand
             {
                 get
@@ -299,6 +288,7 @@ namespace Klarf
                     return selectCommand;
                 }
             }
+
             private bool isSelected;
             public bool IsSelected
             {
@@ -309,6 +299,7 @@ namespace Klarf
                     {
                         isSelected = value;
                         OnPropertyChanged(nameof(IsSelected));
+                        
                     }
                 }
             }
@@ -319,11 +310,16 @@ namespace Klarf
             public Thickness Margin { get; set; }
             public string Text { get; set; }
 
+            #endregion
+
+            #region [메서드]
             public event PropertyChangedEventHandler PropertyChanged;
             protected virtual void OnPropertyChanged(string propertyName)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
+
+            #endregion
         }
 
         #endregion

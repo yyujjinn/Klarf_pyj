@@ -53,18 +53,6 @@
                         <Rectangle Width="{Binding Width}" Height="{Binding Height}" 
                                Margin="{Binding Margin}" Fill="Red"
                                DataContext="{Binding}">
-                            <!--<Rectangle.ToolTip>
-                                <ToolTip>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="X={0}, Y={1}">
-                                                <Binding Path="DefectPoint.X"/>
-                                                <Binding Path="DefectPoint.Y"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </ToolTip>
-                            </Rectangle.ToolTip>-->
                             <Rectangle.InputBindings>
                                 <MouseBinding Gesture="LeftClick" Command="{Binding DieClickCommand}" CommandParameter="{Binding}" />
                             </Rectangle.InputBindings>
@@ -87,8 +75,8 @@
                                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-
                         </Rectangle>
+                        
                         <TextBlock Text="{Binding Text}" Background="FloralWhite" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,8">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
