@@ -62,23 +62,28 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="DEFECTID" DisplayMemberBinding="{Binding DefectID}"/>
-                    <GridViewColumn Header="XREL" Width="80" DisplayMemberBinding="{Binding XRel}"/>
-                    <GridViewColumn Header="YREL" Width="80" DisplayMemberBinding="{Binding YRel}"/>
-                    <GridViewColumn Header="XINDEX" Width="40" DisplayMemberBinding="{Binding XIndex}"/>
-                    <GridViewColumn Header="YINDEX" Width="40" DisplayMemberBinding="{Binding YIndex}"/>
-                    <GridViewColumn Header="XSIZE" Width="35" DisplayMemberBinding="{Binding XSize}"/>
-                    <GridViewColumn Header="YSIZE" Width="35" DisplayMemberBinding="{Binding YSize}"/>
-                    <GridViewColumn Header="DEFECTAREA" Width="50" DisplayMemberBinding="{Binding DefectArea}"/>
-                    <GridViewColumn Header="DSIZE" Width="35" DisplayMemberBinding="{Binding DSize}"/>
-                    <GridViewColumn Header="CLASSNUMBER" Width="70" DisplayMemberBinding="{Binding ClassNumber}"/>
-                    <GridViewColumn Header="TEST" Width="35" DisplayMemberBinding="{Binding Test}"/>
-                    <GridViewColumn Header="CLUSTERNUMBER" Width="50" DisplayMemberBinding="{Binding ClusterNumber}"/>
-                    <GridViewColumn Header="ROUGHBINNUMBER" Width="60" DisplayMemberBinding="{Binding RoughBinNumber}"/>
-                    <GridViewColumn Header="FINEBINNUMBER" Width="60" DisplayMemberBinding="{Binding FineBinNumber}"/>
-                    <GridViewColumn Header="REVIEWSAMPLE" Width="60" DisplayMemberBinding="{Binding ReviewSample}"/>
-                    <GridViewColumn Header="IMAGECOUNT" Width="50" DisplayMemberBinding="{Binding ImageCount}"/>
+                    <GridViewColumn Header="XREL" Width="Auto" DisplayMemberBinding="{Binding XRel}"/>
+                    <GridViewColumn Header="YREL" Width="Auto" DisplayMemberBinding="{Binding YRel}"/>
+                    <GridViewColumn Header="XINDEX" Width="Auto" DisplayMemberBinding="{Binding XIndex}"/>
+                    <GridViewColumn Header="YINDEX" Width="Auto" DisplayMemberBinding="{Binding YIndex}"/>
+                    <GridViewColumn Header="XSIZE" Width="Auto" DisplayMemberBinding="{Binding XSize}"/>
+                    <GridViewColumn Header="YSIZE" Width="Auto" DisplayMemberBinding="{Binding YSize}"/>
+                    <GridViewColumn Header="DEFECTAREA" Width="Auto" DisplayMemberBinding="{Binding DefectArea}"/>
+                    <GridViewColumn Header="DSIZE" Width="Auto" DisplayMemberBinding="{Binding DSize}"/>
+                    <GridViewColumn Header="CLASSNUMBER" Width="Auto" DisplayMemberBinding="{Binding ClassNumber}"/>
+                    <GridViewColumn Header="TEST" Width="Auto" DisplayMemberBinding="{Binding Test}"/>
+                    <GridViewColumn Header="CLUSTERNUMBER" Width="Auto" DisplayMemberBinding="{Binding ClusterNumber}"/>
+                    <GridViewColumn Header="ROUGHBINNUMBER" Width="Auto" DisplayMemberBinding="{Binding RoughBinNumber}"/>
+                    <GridViewColumn Header="FINEBINNUMBER" Width="Auto" DisplayMemberBinding="{Binding FineBinNumber}"/>
+                    <GridViewColumn Header="REVIEWSAMPLE" Width="Auto" DisplayMemberBinding="{Binding ReviewSample}"/>
+                    <GridViewColumn Header="IMAGECOUNT" Width="Auto" DisplayMemberBinding="{Binding ImageCount}"/>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </UserControl>
