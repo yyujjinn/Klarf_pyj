@@ -62,9 +62,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\MainModel.cs" />
-    <Compile Include="Service\DragBehavior.cs" />
-    <Compile Include="Service\IMouseCaptureService.cs" />
-    <Compile Include="Service\MouseCaptureService.cs" />
     <Compile Include="ViewModel\DefectImageViewModel.cs" />
     <Compile Include="ViewModel\DefectInfoViewModel.cs" />
     <Compile Include="ViewModel\FileListViewModel.cs" />

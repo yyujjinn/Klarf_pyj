@@ -167,7 +167,7 @@ namespace Klarf
             double deltaY = endPoint.Y - startPoint.Y;
 
             double length = Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
-            double lengthMicrometers = length * 0.266;
+            double lengthMicrometers = length * 0.298;
 
             string lengthMicrometersText = $"{lengthMicrometers:F2} µm";
 
