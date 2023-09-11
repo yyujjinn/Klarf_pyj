@@ -25,6 +25,7 @@ namespace Klarf
         private BitmapFrame loadedImage;
         private Point startPoint;
         private Point endPoint;
+        private Point linePoint;
         private bool isDragging;
         private string rulerLength;
 
@@ -78,6 +79,16 @@ namespace Klarf
             {
                 endPoint = value;
                 OnPropertyChanged(nameof(EndPoint));
+            }
+        }
+
+        public Point LinePoint
+        {
+            get { return linePoint; }
+            set
+            {
+                linePoint = value;
+                OnPropertyChanged(nameof(LinePoint));
             }
         }
 
@@ -142,23 +153,27 @@ namespace Klarf
         private void OnRightDown(object parameter)
         {
             isRightButtonDown = true;
-            startPoint = Mouse.GetPosition(null);
-            isDragging = true;
+            startPoint = new Point { X = Mouse.GetPosition(null).X - 400, Y = Mouse.GetPosition(null).Y};
+            StartPoint = startPoint;
+            IsDragging = true;
         }
 
         private void OnMouseMove(object parameter)
         {
-            if (isRightButtonDown)
+            if (isDragging && isRightButtonDown)
             {
-                endPoint = Mouse.GetPosition(null);
-                RulerLength = CalculateRulerLength();
+                linePoint = new Point { X = Mouse.GetPosition(null).X - 400, Y = Mouse.GetPosition(null).Y };
+                LinePoint = linePoint;
             }
         }
 
         private void OnRightUp(object parameter)
         {
+            endPoint = new Point { X = Mouse.GetPosition(null).X - 400, Y = Mouse.GetPosition(null).Y };
+            EndPoint = endPoint;
+            RulerLength = CalculateRulerLength();
+
             isRightButtonDown = false;
-            isDragging = false;
         }
 
         private string CalculateRulerLength()

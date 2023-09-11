@@ -18,17 +18,11 @@
             <ColumnDefinition Width="170"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="340"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <!--<Image Source="{Binding LoadedImage}" Width="540" Height="400" Grid.ColumnSpan="3" Grid.RowSpan="3" >
-            <Image.LayoutTransform>
-                <ScaleTransform x:Name="scale" ScaleX="{Binding ElementName=zoomSlider, Path=Value}" 
-                            ScaleY="{Binding ElementName=zoomSlider, Path=Value}"/>
-            </Image.LayoutTransform>
-        </Image>-->
-        <Image Source="{Binding LoadedImage}" Width="540" Height="400" Grid.ColumnSpan="3" Grid.RowSpan="3">
+        <Image x:Name="image" Source="{Binding LoadedImage}" Width="540" Height="400" Grid.ColumnSpan="3" Grid.RowSpan="3">
             <Image.RenderTransform>
                 <ScaleTransform x:Name ="scale" ScaleX="{Binding ElementName=zoomSlider, Path=Value}"
                                ScaleY="{Binding ElementName=zoomSlider, Path=Value}"/>
@@ -42,9 +36,20 @@
 
         <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RulerLength}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
 
-        <Line X1="{Binding DefectImageViewModel.StartPoint.X}" Y1="{Binding DefectImageViewModel.StartPoint.Y}"
-              X2="{Binding DefectImageViewModel.EndPoint.X}" Y2="{Binding DefectImageViewModel.EndPoint.Y}"
-              Stroke="Red" StrokeThickness="10"/>
+        <Line X1="{Binding StartPoint.X}" Y1="{Binding StartPoint.Y}"
+              X2="{Binding LinePoint.X}" Y2="{Binding LinePoint.Y}"
+              Stroke="Red" StrokeThickness="2" Grid.ColumnSpan="3" Grid.RowSpan="3">
+            <Line.Style>
+                <Style TargetType="Line">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDragging}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Line.Style>
+        </Line>
 
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="MouseRightButtonDown">
