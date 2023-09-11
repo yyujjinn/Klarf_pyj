@@ -131,12 +131,9 @@ namespace Klarf
         #region [생성자]
         public MainModel()
         {
-
-            this.fileModel = new FileModel();
+            fileModel = new FileModel();
             Defect = new DefectModel();
             Wafer = new WaferModel();
-            //xIndices = new List<int>();
-            //Defect.currentImageIndex = 0;
         }
 
         #endregion
@@ -441,6 +438,8 @@ namespace Klarf
             int xMin = newWafer.xIndices.Min();
             int yMax = newWafer.yIndices.Max();
 
+            List<int> indexList = new List<int>();
+
             for (int i = 0; i < newDefect.xIndex.Count; i++)
             {
                 int newX = (newDefect.xIndices[i] - xMin) * newWafer.width;
@@ -451,7 +450,8 @@ namespace Klarf
                     if (selectedCoordinate.Y == newY)
                     {
                         int index = int.Parse(newDefect.defectID[i]) -1;
-                        UpdateTiffFile(index);
+                        indexList.Add(index);
+                        UpdateTiffFile(indexList[0]);
                     }
                 }
             }
