@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
@@ -73,11 +69,21 @@ namespace Klarf
         #endregion
 
         #region [메서드]
+        /**
+        * @brief 속성 변경 이벤트 호출
+        * @param propertyName : 변경된 속성의 이름
+        * 2023-09-12|박유진|
+        */
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /**
+        * @brief 파일 목록을 화면에 표시, 파일 정보를 가져옴
+        * @param parameter : 이벤트 매개변수
+        * 2023-09-12|박유진|
+        */
         public void ShowFileList(object parameter)
         {
             var result = mainModel.GiveFileList();
@@ -88,10 +94,14 @@ namespace Klarf
             FileList.Add(fileItem);
         }
 
+        /**
+        * @brief 파일 열기 작업 수행
+        * @param parameter : 이벤트 매개변수
+        * 2023-09-12|박유진|
+        */
         private void OpenFile(object parameter)
         {
             mainModel.GiveFileInfo();
-            //mainModel.GiveDefectList();
             mainModel.GiveDieIndex();
             mainModel.GiveDefectIndex();
             mainModel.LoadTiffFile();

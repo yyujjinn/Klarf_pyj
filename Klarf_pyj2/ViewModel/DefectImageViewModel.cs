@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.ComponentModel;
@@ -117,6 +113,13 @@ namespace Klarf
         #endregion
 
         #region [메서드]
+        /**
+        * @brief PropertyChanged 이벤트 핸들러
+        * @param sender : 이벤트 발생 객체
+        * @param e : PropertyChangedEventArgs 객체
+        * @note DefectImage 속성이 변경되면 ShowTifImage() 메서드 호출
+        * 2023-09-12|박유진|
+        */
         private void MainModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DefectImage")
@@ -125,11 +128,20 @@ namespace Klarf
             }
         }
 
+        /**
+        * @brief 속성 변경 이벤트 호출
+        * @param propertyName : 변경된 속성의 이름
+        * 2023-09-12|박유진|
+        */
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /**
+        * @brief TIF 이미지 로드, 현재 선택된 이미지 표시
+        * 2023-09-12|박유진|
+        */
         private void ShowTifImage()
         {
             string folderPath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf";
@@ -150,6 +162,11 @@ namespace Klarf
             }
         }
 
+        /**
+        * @brief 마우스 오른쪽 버튼 눌렀을 때 호출되는 메서드
+        * @param parameter : 이벤트 매개변수
+        * 2023-09-12|박유진|
+        */
         private void OnRightDown(object parameter)
         {
             isRightButtonDown = true;
@@ -158,6 +175,11 @@ namespace Klarf
             IsDragging = true;
         }
 
+        /**
+        * @brief 마우스 이동 시 호출되는 메서드
+        * @param parameter : 이벤트 매개변수
+        * 2023-09-12|박유진|
+        */
         private void OnMouseMove(object parameter)
         {
             if (isDragging && isRightButtonDown)
@@ -167,6 +189,11 @@ namespace Klarf
             }
         }
 
+        /**
+        * @brief 마우스 오른쪽 버튼 놓았을 때 호출되는 메서드
+        * @param parameter : 이벤트 매개변수
+        * 2023-09-12|박유진|
+        */
         private void OnRightUp(object parameter)
         {
             endPoint = new Point { X = Mouse.GetPosition(null).X - 400, Y = Mouse.GetPosition(null).Y };
@@ -176,6 +203,11 @@ namespace Klarf
             isRightButtonDown = false;
         }
 
+        /**
+        * @brief 두 점 간의 거리 계산하여 길이 반환
+        * @return lengthMicrometersText : 계산된 길이 문자열
+        * 2023-09-12|박유진|
+        */
         private string CalculateRulerLength()
         {
             double deltaX = endPoint.X - startPoint.X;

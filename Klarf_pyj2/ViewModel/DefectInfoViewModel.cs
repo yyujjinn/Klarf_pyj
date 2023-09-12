@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows.Input;
 
 namespace Klarf
@@ -298,6 +294,13 @@ namespace Klarf
         #endregion
 
         #region [메서드]
+        /**
+        * @brief PropertyChanged 이벤트 핸들러
+        * @param sender : 이벤트 발생 객체
+        * @param e : PropertyChangedEventArgs 객체
+        * @note Defect 속성이 변경되면 ShowFileInfo(), ShowDefectList() 메서드 호출
+        * 2023-09-12|박유진|
+        */
         private void MainModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Defect")
@@ -307,11 +310,20 @@ namespace Klarf
             }
         }
 
+        /**
+        * @brief 속성 변경 이벤트 호출
+        * @param propertyName : 변경된 속성의 이름
+        * 2023-09-12|박유진|
+        */
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /**
+        * @brief 파일 정보를 화면에 표시
+        * 2023-09-12|박유진|
+        */
         private void ShowFileInfo()
         {
             StringBuilder fileInfo = new StringBuilder();
@@ -324,6 +336,10 @@ namespace Klarf
             DisplayFileInfo = fileInfo.ToString();
         }
 
+        /**
+        * @brief Defect List 화면에 표시
+        * 2023-09-12|박유진|
+        */
         private void ShowDefecList()
         {
             List<string> defectIDs = mainModel.Defect.defectID;
@@ -368,6 +384,12 @@ namespace Klarf
             }
         }
 
+
+        /**
+        * @brief 이전 이미지로 변경
+        * @param parameter : 이벤트 매개변수
+        * 2023-09-12|박유진|
+        */
         private void ChangePreviousImage(object parameter)
         {
             int selectedIndex = DefectList.IndexOf(SelectedDefect);
@@ -382,6 +404,11 @@ namespace Klarf
             SelectedDefect = DefectList[nextIndex];
         }
 
+        /**
+        * @brief 다음 이미지로 변경
+        * @param parameter : 이벤트 매개변수
+        * 2023-09-12|박유진|
+        */
         private void ChangeNextImage(object parameter)
         {
             int selectedIndex = DefectList.IndexOf(SelectedDefect);
@@ -396,6 +423,10 @@ namespace Klarf
             SelectedDefect = DefectList[nextIndex];
         }
 
+        /**
+        * @brief 선택된 결함에 해당하는 이미지를 화면에 표시
+        * 2023-09-12|박유진|
+        */
         private void SelectDefect()
         {
             int selectedDefectIndex = DefectList.IndexOf(selectedDefect);

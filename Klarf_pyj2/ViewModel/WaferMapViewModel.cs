@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Klarf
@@ -182,6 +179,13 @@ namespace Klarf
         #endregion
 
         #region [메서드]
+        /**
+        * @brief PropertyChanged 이벤트 핸들러
+        * @param sender : 이벤트 발생 객체
+        * @param e : PropertyChangedEventArgs 객체
+        * @note Wafer 속성이 변경되면 ShowDie() 메서드 호출, DefectDie 속성이 변경되면 ShowDefectDie() 메서드 호출
+        * 2023-09-12|박유진|
+        */
         private void MainModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Wafer")
@@ -194,11 +198,20 @@ namespace Klarf
             }
         }
 
+        /**
+        * @brief 속성 변경 이벤트 호출
+        * @param propertyName : 변경된 속성의 이름
+        * 2023-09-12|박유진|
+        */
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /**
+        * @brief Wafer에 대한 Die 정보 표시
+        * 2023-09-12|박유진|
+        */
         private void ShowDie()
         {
             int xMin = mainModel.Wafer.xIndices.Min();
@@ -221,6 +234,10 @@ namespace Klarf
             }
         }
 
+        /**
+        * @brief DefectDie에 대한 Defect 정보 표시
+        * 2023-09-12|박유진|
+        */
         private void ShowDefectDie()
         {
             int xMin = mainModel.Wafer.xIndices.Min();

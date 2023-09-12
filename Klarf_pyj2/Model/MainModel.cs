@@ -139,17 +139,30 @@ namespace Klarf
         #endregion
 
         #region [메서드]
+        /**
+        * @brief 파일 로드  
+        * @param filePath : 로드할 파일 경로
+        * 2023-09-12|박유진|
+        */
         public void LoadFile(string filePath)
         {
             FileData.fileData = File.ReadAllText(FileData.filePath);
         }
 
-
+        /**
+        * @brief 파일 경로 설정
+        * 2023-09-12|박유진|
+        */
         public void LoadFilePath()
         {
             FileData.filePath = @"C:\Users\yjyu\Desktop\IPP 과제\Klarf\Klarf\Klarf Format.001";
         }
 
+        /**
+        * @brief 파일 목록 로드 
+        * @return (파일 이름, 파일 생성 일자)
+        * 2023-09-12|박유진|
+        */
         public (string, DateTime) LoadFileList()
         {
             LoadFilePath();
@@ -161,6 +174,12 @@ namespace Klarf
             return (fileName, fileDate);
         }
 
+        /**
+        * @brief Die 인덱스 추출, 리스트 반환 
+        * @param partIndex : 추출할 인덱스의 열 번호
+        * @return partsDieIndex : Die 인덱스 목록
+        * 2023-09-12|박유진|
+        */
         public List<string> GetPartsDieIndex(int partIndex)
         {
             string filePath = FileData.filePath;
@@ -197,6 +216,12 @@ namespace Klarf
             return partsDieIndex;
         }
 
+        /**
+        * @brief 주어진 인덱스 목록의 개수를 세어 배열로 반환
+        * @param indices : 개수를 세고자하는 인덱스 목록
+        * @return counts : 인덱스 개수 배열
+        * 2023-09-12|박유진|
+        */
         private int[] CountIndices(List<int> indices)
         {
             int[] counts = new int[50];
@@ -210,17 +235,34 @@ namespace Klarf
             return counts;
         }
 
+        /**
+        * @brief 배열에서 가장 큰 값 반환  
+        * @param counts : 배열
+        * @return 배열에서 가장 큰 값
+        * 2023-09-12|박유진|
+        */
         private int GetMaxCount(int[] counts)
         {
             return counts.Max();
         }
 
+        /**
+        * @brief WaferModel의 너비와 높이 설정
+        * @param wafer : WaferModel 인스턴스
+        * @param xCount : X 축 개수
+        * @param yCount : Y 축 개수
+        * 2023-09-12|박유진|
+        */
         private void SetWaferDimensions(WaferModel wafer, int xCount, int yCount)
         {
             wafer.width = 400 / xCount;
             wafer.height = 400 / yCount;
         }
 
+        /**
+        * @brief Die 인덱스 추출, WaferModel에 설정
+        * 2023-09-12|박유진|
+        */
         public void GiveDieIndex()
         {
             WaferModel newWafer = new WaferModel();
@@ -239,6 +281,12 @@ namespace Klarf
             Instance.Wafer = newWafer;
         }
 
+        /**
+        * @brief 주어진 문자열 목록에서 정수 인덱스를 추출하여 리스트로 반환
+        * @param indexStrings : 정수 인덱스가 포함된 문자열 목록
+        * @return indices : 추출된 정수 인덱스 목록
+        * 2023-09-12|박유진|
+        */
         private List<int> ExtractIndices(List<string> indexStrings)
         {
             List<int> indices = new List<int>();
@@ -252,6 +300,10 @@ namespace Klarf
             return indices;
         }
 
+        /**
+        * @brief Defect 인덱스를 추출, DefectModel에 설정
+        * 2023-09-12|박유진|
+        */
         public void GiveDefectIndex()
         {
             DefectModel newDefect = new DefectModel();
@@ -265,7 +317,11 @@ namespace Klarf
             Instance.DefectDie = newDefect;
         }
 
-
+        /**
+        * @brief 파일 목록 로드, 파일 이름과 생성 일자 반환
+        * @return (파일 이름, 파일 생성 일자)
+        * 2023-09-12|박유진|
+        */
         public (string, DateTime) GiveFileList()
         {
             string filePath = FileData.filePath;
@@ -275,6 +331,11 @@ namespace Klarf
             return (fileName, fileDate);
         }
 
+
+        /**
+        * @brief 파일 정보 로드, DefectModel에 설정
+        * 2023-09-12|박유진|
+        */
         public void GiveFileInfo()
         {
             DefectModel newDefect = new DefectModel();
@@ -332,6 +393,11 @@ namespace Klarf
             }
         }
 
+        /**
+        * @brief Defect 정보 추출, DefectModel에 설정
+        * @param defect : DefectModel 인스턴스
+        * 2023-09-12|박유진|
+        */
         private void GetDefectList(DefectModel defect)
         {
             defect.defectID = GetPartsDefectList(0);
@@ -352,6 +418,12 @@ namespace Klarf
             defect.imageCount = GetPartsDefectList(15);
         }
 
+        /**
+        * @brief Defect 정보 추출, 문자열 목록으로 반환
+        * @param partIndex : 추출할 정보의 열 번호
+        * @return partsDefectList : 문자열 목록으로 된 Defect 정보
+        * 2023-09-12|박유진|
+        */
         public List<string> GetPartsDefectList(int partIndex)
         {
             string filePath = FileData.filePath;
@@ -396,6 +468,10 @@ namespace Klarf
             return partsDefectList;
         }
 
+        /**
+        * @brief Tiff 파일 로드 DefectModel에 현재 이미지 인덱스 설정
+        * 2023-09-12|박유진|
+        */
         public void LoadTiffFile()
         {
             DefectModel newDefect = new DefectModel();
@@ -405,6 +481,11 @@ namespace Klarf
             Instance.DefectImage = newDefect;
         }
 
+        /**
+        * @brief 선택한 인덱스를 기반으로 Tiff 파일을 업데이트, 현재 이미지 인덱스 설정
+        * @param selectedIndex : 업데이트할 이미지의 인덱스
+        * 2023-09-12|박유진|
+        */
         public void UpdateTiffFile(int selectedIndex)
         {
             DefectModel newDefect = new DefectModel();
@@ -415,6 +496,11 @@ namespace Klarf
             CurrentImageIndex = selectedIndex;
         }
 
+        /**
+        * @brief 선택한 좌표를 기반으로 이미지 인덱스 변환, Tiff 파일 업데이트
+        * @param selectedCoordinate 선택한 좌표
+        * 2023-09-12|박유진|
+        */
         public void ConvertImageIndex(Point selectedCoordinate)
         {
             DefectModel newDefect = new DefectModel();
@@ -457,6 +543,11 @@ namespace Klarf
             }
         }
 
+        /**
+        * @brief 속성 변경 이벤트 핸들러 호출
+        * @param propertyName : 변경된 속성의 이름
+        * 2023-09-12|박유진|
+        */
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
